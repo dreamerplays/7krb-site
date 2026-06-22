@@ -4,8 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>7KRe:BIRTH — Team Builds</title>
-  <meta name="description" content="Seven Knights Re:BIRTH community reference site — team builds, guides and tier lists."/>
-  <!-- React + Babel for JSX -->
+  <meta name="description" content="Seven Knights Re:BIRTH community reference site."/>
   <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -18,9 +17,8 @@
 <body>
   <div id="root"></div>
   <script type="text/babel" data-presets="react">
-
-
 const { useState, useRef, useEffect } = React;
+
 // ═══════════════════════════════════════════════════════════════════
 //  DATA — edit this section to update teams, heroes, notes etc.
 // ═══════════════════════════════════════════════════════════════════
@@ -571,7 +569,7 @@ function HeroCard({hero}){
         onMouseLeave={e=>e.currentTarget.style.borderColor=tc+"66"}
         title="Click for hero options">
           <img
-            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero}.png`)}
+            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero.replace(/ /g,'')}.png`)}
             alt={hero.hero}
             style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",borderRadius:0}}
             onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="flex";}}
@@ -677,7 +675,7 @@ function CompactHeroCard({hero}){
         onMouseLeave={e=>e.currentTarget.style.borderColor=tc+"55"}
         title="Click for hero options">
           <img
-            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero}.png`)}
+            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero.replace(/ /g,'')}.png`)}
             alt={hero.hero}
             style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",borderRadius:0}}
             onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="flex";}}
@@ -1237,7 +1235,7 @@ function App(){
           {/* ══ LEFT — Boss panel (sticky) ══ */}
           <div style={{
             width:"clamp(200px, 22%, 280px)",flexShrink:0,
-            position:"sticky",top:68,
+            position:"sticky",top:68,alignSelf:"flex-start",
             background:C.surface,
             border:`1px solid ${C.gold}44`,
             borderRadius:RL,overflow:"hidden",
@@ -1245,7 +1243,8 @@ function App(){
           }}>
             {/* Boss portrait area — 242:578 aspect ratio */}
             <div style={{
-              width:"100%",aspectRatio:"242/578",
+              width:"100%",
+              height:380,
               background:"linear-gradient(180deg,#120820 0%,#0a1428 40%,#06101c 100%)",
               position:"relative",
               display:"flex",alignItems:"center",justifyContent:"center",
@@ -1363,15 +1362,8 @@ function App(){
   );
 }
 
-// Render the app
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(App));
-  </script>
-  <script>
-    // Wait for Babel to compile then render
-    document.addEventListener('DOMContentLoaded', function() {
-      // Babel handles the JSX above, React is global
-    });
   </script>
 </body>
 </html>
