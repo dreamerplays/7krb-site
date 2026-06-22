@@ -4,12 +4,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>7KRe:BIRTH — Team Builds</title>
-  <meta name="description" content="Seven Knights Re:BIRTH community reference site."/>
   <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;overflow-x:auto;min-width:1024px;}
     body{background:#06101c;color:#e8dcc8;font-family:'Lato','Inter',system-ui,sans-serif;}
     #root{min-height:100vh;}
   </style>
@@ -53,15 +53,15 @@ const DATA = {
           extraNotes:"Ensure Daisy (A) always acts first. Stack DEF Down before Xiao Qiao's SE. If unable to clear Phase 1 by Turn 8, swap to the Turn 12 entry strategy for Phase 2.",
           pets:[
             {name:"Yeonji",rarity:"SqL",icon:"🌟",passive:"Increases all allies' Crit Rate and ATK at the start of battle."},
-            {name:"Igris", rarity:"L",icon:"⚔️",passive:"Increases all allies' Physical ATK at the start of battle."},
-            {name:"Note",  rarity:"L",icon:"🎵",passive:"Increases all allies' Crit DMG at the start of battle."},
+            {name:"Igris", rarity:"SqR",icon:"⚔️",passive:"Increases all allies' Physical ATK at the start of battle."},
+            {name:"Note",  rarity:"SqR",icon:"🎵",passive:"Increases all allies' Crit DMG at the start of battle."},
           ],
           heroes:[
-            {slot:"C",hero:"Xiao Qiao",rarity:"L",tier:"T6",row:"front",role:"ST DPS",         ee:"DMG AMP",speed:29,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"D",hero:"Melia",    rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   ee:"—",       speed:29,atk:"—",      critDmg:"~200%",  type:"magic",gear:"arcane",accMain:"critRate",accSub:"defIgnore",dedi:"dediMag", critRate:{base:5,t4:"-", gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"A",hero:"Daisy",    rarity:"L++",tier:"T6",row:"back", role:"ST DPS",          ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~270%+", type:"magic",   gear:"rage",  accMain:"weakHit", accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:68,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
-            {slot:"E",hero:"Vanessa",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",    ee:"DMG AMP",speed:29,atk:"~3.7K",  critDmg:"~200%",  type:"magic",    gear:"arcane",accMain:"critRate",accSub:"critDmg",  dedi:"dediMag", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"B",hero:"Lina",     rarity:"L++",tier:"T0",row:"front",role:"+DMG / DEF DOWN (A)",ee:"—",    speed:31,atk:"N/A",   critDmg:"—",       type:"support",  gear:"iron",  accMain:"atkBoost",accSub:"spdBoost", dedi:"dediDef", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"C",hero:"Xiao Qiao",rarity:"L",tier:"T6",row:"front",role:"ST DPS",         ee:"DMG AMP",speed:29,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"D",hero:"Melia",    rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   ee:"—",       speed:29,atk:"—",      critDmg:"~200%",  type:"magic",gear:"arcane",accMain:"bossDmg",accSub:"incDmg",dedi:"dediMag", critRate:{base:5,t4:"-", gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"A",hero:"Daisy",    rarity:"L",tier:"T6",row:"back", role:"ST DPS",          ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~270%+", type:"magic",   gear:"rage",  accMain:"bossDmg", accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:68,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
+            {slot:"E",hero:"Vanessa",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",    ee:"DMG AMP",speed:29,atk:"~3.7K",  critDmg:"~200%",  type:"magic",    gear:"arcane",accMain:"bossDmg",accSub:"incDmg",  dedi:"dediMag", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"B",hero:"Lina",     rarity:"L",tier:"T0",row:"front",role:"+DMG / DEF DOWN (A)",ee:"—",    speed:31,atk:"N/A",   critDmg:"—",       type:"support",  gear:"iron",  accMain:"bleed",accSub:"dot", dedi:"dediDef", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
           ],
           skillQueues:[{label:"Standard",queue:[
             {turn:0, slot:"C",skill:"SE",note:"Xiao Qiao SE — open with ST DPS immediately."},
@@ -80,11 +80,11 @@ const DATA = {
             {name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."},
           ],
           heroes:[
-            {slot:"A",hero:"Reginleif", rarity:"L++",tier:"T6",row:"front",role:"ST DPS",         ee:"—",       speed:33,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
-            {slot:"B",hero:"Xiao Qiao", rarity:"L++",tier:"T6",row:"front",role:"ST DPS",         ee:"DMG AMP",speed:29,atk:"~5K+",   critDmg:"~230%+",type:"magic",   gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"E",hero:"Pascal",    rarity:"L++",tier:"T6",row:"back", role:"DEF DOWN (P)",    ee:"DMG AMP",speed:29,atk:"~5K+",   critDmg:"~270%+",type:"magic",   gear:"arcane",accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:91,acc:10, passive:"-",ally:"-",total:100},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"C",hero:"Miho",      rarity:"L++",tier:"SE",row:"front",role:"ST DMG BUFFER",  ee:"DMG AMP",speed:29,atk:"~3.7K",  critDmg:"~200%",  type:"magic",    gear:"arcane",accMain:"critRate",accSub:"critDmg",  dedi:"dediMag", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"D",hero:"Melia",     rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   ee:"—",       speed:29,atk:"—",      critDmg:"—",       type:"magic",gear:"arcane",accMain:"critRate",accSub:"defIgnore",dedi:"dediMag", critRate:{base:5,t4:"-", gears:84,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"A",hero:"Reginleif", rarity:"L+",tier:"T6",row:"front",role:"ST DPS",         ee:"—",       speed:33,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
+            {slot:"B",hero:"Xiao Qiao", rarity:"L",tier:"T6",row:"front",role:"ST DPS",         ee:"DMG AMP",speed:29,atk:"~5K+",   critDmg:"~230%+",type:"magic",   gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"E",hero:"Pascal",    rarity:"L",tier:"T6",row:"back", role:"DEF DOWN (P)",    ee:"DMG AMP",speed:29,atk:"~5K+",   critDmg:"~270%+",type:"magic",   gear:"arcane",accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:91,acc:10, passive:"-",ally:"-",total:100},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"C",hero:"Miho",      rarity:"L",tier:"SE",row:"front",role:"ST DMG BUFFER",  ee:"DMG AMP",speed:29,atk:"~3.7K",  critDmg:"~200%",  type:"magic",    gear:"arcane",accMain:"bossDmg",accSub:"incDmg",  dedi:"dediMag", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"D",hero:"Melia",     rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   ee:"—",       speed:29,atk:"—",      critDmg:"—",       type:"magic",gear:"arcane",accMain:"bossDmg",accSub:"incDmg",dedi:"dediMag", critRate:{base:5,t4:"-", gears:84,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
           ],
           skillQueues:[{label:"Standard",queue:[
             {turn:0, slot:"A",skill:"SE",note:"Reginleif SE — open with burst."},
@@ -100,13 +100,13 @@ const DATA = {
       altTeams:[
         {
           label:"Alt Team 1", note:"Xiao Qiao + Vanessa + Pascal + Chancellor + Miho. Skill queue and team are independent.", formation:"1b4f",
-          pets:[{name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Yeonji",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
             {slot:"A",hero:"Xiao Qiao",rarity:"L",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
-            {slot:"B",hero:"Vanessa",   rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",    type:"magic"    },
-            {slot:"D",hero:"Pascal",    rarity:"L++",tier:"T6",row:"back", role:"DEF DOWN (P)",    type:"magic"   },
+            {slot:"B",hero:"Vanessa",   rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",    type:"magic"    },
+            {slot:"D",hero:"Pascal",    rarity:"L",tier:"T6",row:"back", role:"DEF DOWN (P)",    type:"magic"   },
             {slot:"E",hero:"Chancellor",rarity:"L",tier:"SE",row:"front",role:"ST DMG BUFFER",   type:"universal"  },
-            {slot:"C",hero:"Miho",      rarity:"L++",tier:"T0",row:"front",role:"ST DMG BUFFER",   type:"magic"    },
+            {slot:"C",hero:"Miho",      rarity:"L",tier:"T0",row:"front",role:"ST DMG BUFFER",   type:"magic"    },
           ],
           skillQueues:[{label:"Standard",queue:[
             {turn:0, slot:"A",skill:"SE",note:"Xiao Qiao SE — open with burst."},
@@ -118,13 +118,13 @@ const DATA = {
         },
         {
           label:"Alt Team 2", note:"Reginleif + Xiao Qiao + Pascal + Melia + Miho.", formation:"1b4f",
-          pets:[{name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Yeonji",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
-            {slot:"A",hero:"Reginleif", rarity:"L++",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
-            {slot:"B",hero:"Xiao Qiao", rarity:"L++",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
-            {slot:"E",hero:"Pascal",    rarity:"L++",tier:"T6",row:"back", role:"DEF DOWN (P)",    type:"magic"   },
+            {slot:"A",hero:"Reginleif", rarity:"L+",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
+            {slot:"B",hero:"Xiao Qiao", rarity:"L",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
+            {slot:"E",hero:"Pascal",    rarity:"L",tier:"T6",row:"back", role:"DEF DOWN (P)",    type:"magic"   },
             {slot:"C",hero:"Melia",     rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   type:"magic"},
-            {slot:"D",hero:"Miho",      rarity:"L++",tier:"T0",row:"front",role:"ST DMG BUFFER",   type:"magic"    },
+            {slot:"D",hero:"Miho",      rarity:"L",tier:"T0",row:"front",role:"ST DMG BUFFER",   type:"magic"    },
           ],
           skillQueues:[{label:"Standard",queue:[
             {turn:0, slot:"A",skill:"SE",note:"Reginleif SE — open with burst."},
@@ -136,12 +136,12 @@ const DATA = {
         },
         {
           label:"Alt Team 3", note:"Vanessa + Xiao Qiao + Orly + Daisy + Melia. Skill queue and team are independent.", formation:"1b4f",
-          pets:[{name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Yeonji",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
-            {slot:"A",hero:"Vanessa",   rarity:"L++",tier:"T0", row:"front",role:"DEF DOWN (P)",    type:"magic"    },
-            {slot:"B",hero:"Xiao Qiao", rarity:"L++",tier:"T6", row:"back", role:"ST DPS",          type:"magic"    },
-            {slot:"E",hero:"Orly",      rarity:"L++",tier:"SE",  row:"front",role:"ST DMG BUFFER",  type:"support"  },
-            {slot:"C",hero:"Daisy",     rarity:"L++",tier:"T6",  row:"front",role:"ST DPS",         type:"magic"    },
+            {slot:"A",hero:"Vanessa",   rarity:"L+",tier:"T0", row:"front",role:"DEF DOWN (P)",    type:"magic"    },
+            {slot:"B",hero:"Xiao Qiao", rarity:"L",tier:"T6", row:"back", role:"ST DPS",          type:"magic"    },
+            {slot:"E",hero:"Orly",      rarity:"L+",tier:"SE",  row:"front",role:"ST DMG BUFFER",  type:"support"  },
+            {slot:"C",hero:"Daisy",     rarity:"L",tier:"T6",  row:"front",role:"ST DPS",         type:"magic"    },
             {slot:"D",hero:"Melia",     rarity:"L++",tier:"T0",  row:"front",role:"MAGIC VUL (P)",  type:"magic"    },
           ],
           skillQueues:[{label:"Standard",queue:[
@@ -161,16 +161,16 @@ const DATA = {
           label:"Top Scoring (8 Turn Build)", primary:true, formation:"1b4f",
           extraNotes:"Bai Long (A) is in the back row. Fai (B), Xiao (C), Lu Bu (D) and Biscuit (E) are in the front. Enter at Turn 8 for Turn 8 Entry queue, or Turn 12 for the Turn 12 Entry queue.",
           pets:[
-            {name:"Windy", rarity:"L",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."},
-            {name:"Eirin", rarity:"L",icon:"🐱", passive:"Increases all allies' Crit Rate by 5% and ATK by 3% at the start of battle."},
+            {name:"Windy", rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."},
+            {name:"Eirin", rarity:"SqL",icon:"🐱", passive:"Increases all allies' Crit Rate by 5% and ATK by 3% at the start of battle."},
             {name:"Sherry",rarity:"SqR",icon:"✨", passive:"Increases all allies' Crit DMG at the start of battle."},
           ],
           heroes:[
-            {slot:"B",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"PHYS VUL (P) / ST DPS",         ee:"DMG AMP",speed:29,atk:"~4K+",   critDmg:"~250%+",type:"attack",  gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"C",hero:"Xiao",     rarity:"L++",tier:"T6",row:"front",role:"ST DMG BUFFER / DEF DOWN (A) / BARRIER",ee:"—",speed:29,atk:"—",    critDmg:"—",      type:"attack",  gear:"valor", accMain:"weakHit", accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:14,  gears:72,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:"-",gears:30,acc:10, passive:"-",ally:"-",total:45}},
-            {slot:"A",hero:"Bai Long", rarity:"L++",tier:"T6",row:"back", role:"ST DPS",                         ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~300%+",type:"magic",   gear:"arcane",accMain:"critRate",accSub:"defIgnore",dedi:"dediMag", critRate:{base:5,t4:18,  gears:40,acc:"-",passive:33, ally:"-",total:96 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"D",hero:"Lu Bu",    rarity:"L++",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", ee:"DMG AMP",speed:29,atk:"~3.6K",  critDmg:"~200%",  type:"attack",  gear:"rage",  accMain:"atkDmg1T",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",ally:"-",passive:"-",total:"-"}},
-            {slot:"E",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   ee:"—",       speed:19,atk:"N/A",   critDmg:"—",       type:"universal",gear:"swift", accMain:"critRate",accSub:"spdBoost", dedi:"dediSpd", critRate:{base:5,t4:"-", gears:"-", acc:"-",passive:"-",ally:"-",total:"N/A"},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"B",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"PHYS VUL (P) / ST DPS",         ee:"DMG AMP",speed:29,atk:"~4K+",   critDmg:"~250%+",type:"attack",  gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"C",hero:"Xiao",     rarity:"R",tier:"T6",row:"front",role:"ST DMG BUFFER / DEF DOWN (A) / BARRIER",ee:"—",speed:29,atk:"—",    critDmg:"—",      type:"attack",  gear:"valor", accMain:"bleed", accSub:"dot",  dedi:"dediAtk",critRate:{base:5,t4:14,  gears:72,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:"-",gears:30,acc:10, passive:"-",ally:"-",total:45}},
+            {slot:"A",hero:"Bai Long", rarity:"L",tier:"T6",row:"back", role:"ST DPS",                         ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~300%+",type:"attack",   gear:"arcane",accMain:"bossDmg",accSub:"incDmg",dedi:"dediMag", critRate:{base:5,t4:18,  gears:40,acc:"-",passive:33, ally:"-",total:96 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"D",hero:"Lu Bu",    rarity:"L+",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", ee:"DMG AMP",speed:29,atk:"~3.6K",  critDmg:"~200%",  type:"attack",  gear:"rage",  accMain:"bleed",accSub:"dot",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",ally:"-",passive:"-",total:"-"}},
+            {slot:"E",hero:"Biscuit",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",                   ee:"—",       speed:19,atk:"N/A",   critDmg:"—",       type:"support",gear:"swift", accMain:"bleed",accSub:"dot", dedi:"dediSpd", critRate:{base:5,t4:"-", gears:"-", acc:"-",passive:"-",ally:"-",total:"N/A"},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
           ],
           skillQueues:[
             {label:"Turn 8 Entry",queue:[
@@ -212,11 +212,11 @@ const DATA = {
             {name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."},
           ],
           heroes:[
-            {slot:"D",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"PHYS VUL (P) / ST DPS",         ee:"DMG AMP",speed:29,atk:"~4K+",   critDmg:"~250%+",type:"attack",  gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"E",hero:"Xiao",     rarity:"L++",tier:"T6",row:"front",role:"ST DMG BUFFER / DEF DOWN (A) / BARRIER",ee:"—",speed:25,atk:"—",    critDmg:"—",      type:"attack",  gear:"valor", accMain:"weakHit", accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:14,  gears:72,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:"-",gears:30,acc:10, passive:"-",ally:"-",total:45}},
-            {slot:"C",hero:"Bai Long", rarity:"L++",tier:"T6",row:"back", role:"ST DPS",                         ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~300%+",type:"magic",   gear:"arcane",accMain:"critRate",accSub:"defIgnore",dedi:"dediMag", critRate:{base:5,t4:18,  gears:40,acc:"-",passive:33, ally:"-",total:96 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"B",hero:"Lu Bu",    rarity:"L++",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", ee:"DMG AMP",speed:35,atk:"~3.6K",  critDmg:"~200%",  type:"attack",  gear:"rage",  accMain:"atkDmg1T",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"A",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   ee:"—",       speed:37,atk:"N/A",   critDmg:"—",       type:"universal",gear:"swift", accMain:"critRate",accSub:"spdBoost", dedi:"dediSpd", critRate:{base:5,t4:"-", gears:"-", acc:"-",passive:"-",ally:"-",total:"N/A"},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"D",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"PHYS VUL (P) / ST DPS",         ee:"DMG AMP",speed:29,atk:"~4K+",   critDmg:"~250%+",type:"attack",  gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"E",hero:"Xiao",     rarity:"R",tier:"T6",row:"front",role:"ST DMG BUFFER / DEF DOWN (A) / BARRIER",ee:"—",speed:25,atk:"—",    critDmg:"—",      type:"attack",  gear:"valor", accMain:"bleed", accSub:"dot",  dedi:"dediAtk",critRate:{base:5,t4:14,  gears:72,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:"-",gears:30,acc:10, passive:"-",ally:"-",total:45}},
+            {slot:"C",hero:"Bai Long", rarity:"L",tier:"T6",row:"back", role:"ST DPS",                         ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~300%+",type:"attack",   gear:"arcane",accMain:"bossDmg",accSub:"incDmg",dedi:"dediMag", critRate:{base:5,t4:18,  gears:40,acc:"-",passive:33, ally:"-",total:96 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"B",hero:"Lu Bu",    rarity:"L+",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", ee:"DMG AMP",speed:35,atk:"~3.6K",  critDmg:"~200%",  type:"attack",  gear:"rage",  accMain:"bleed",accSub:"dot",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"A",hero:"Biscuit",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",                   ee:"—",       speed:37,atk:"N/A",   critDmg:"—",       type:"support",gear:"swift", accMain:"bleed",accSub:"dot", dedi:"dediSpd", critRate:{base:5,t4:"-", gears:"-", acc:"-",passive:"-",ally:"-",total:"N/A"},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
           ],
           skillQueues:[
             {label:"Turn 4 Build",queue:[
@@ -264,11 +264,11 @@ const DATA = {
           label:"Alt Team 1 (Phase 2)", note:"Rachel + Biscuit + Bai Long + Lina + Lu Bu.", formation:"1b4f",
           pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
-            {slot:"B",hero:"Rachel",   rarity:"L++",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",         type:"universal"},
-            {slot:"A",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"universal"},
-            {slot:"D",hero:"Bai Long", rarity:"L++",tier:"T6",row:"back", role:"ST DPS",                         type:"magic"    },
-            {slot:"E",hero:"Lina",     rarity:"L++",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
-            {slot:"C",hero:"Lu Bu",    rarity:"L++",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", type:"attack"   },
+            {slot:"B",hero:"Rachel",   rarity:"L+",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",         type:"universal"},
+            {slot:"A",hero:"Biscuit",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"support"},
+            {slot:"D",hero:"Bai Long", rarity:"L",tier:"T6",row:"back", role:"ST DPS",                         type:"attack"    },
+            {slot:"E",hero:"Lina",     rarity:"L",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
+            {slot:"C",hero:"Lu Bu",    rarity:"L+",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", type:"attack"   },
           ],
           skillQueues:[{label:"8 Turn Build",queue:[
             {turn:8, slot:"B",skill:"SE",note:"Rachel SE — burst on entry."},
@@ -284,10 +284,10 @@ const DATA = {
           label:"Alt Team 2 (Phase 2)", note:"Rachel + Biscuit + Bai Long + Lina + Fai. Fai replaces Lu Bu.", formation:"1b4f",
           pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
-            {slot:"B",hero:"Rachel",   rarity:"L++",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",         type:"universal"},
-            {slot:"A",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"universal"},
-            {slot:"D",hero:"Bai Long", rarity:"L++",tier:"T6",row:"back", role:"ST DPS",                         type:"magic"    },
-            {slot:"E",hero:"Lina",     rarity:"L++",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
+            {slot:"B",hero:"Rachel",   rarity:"L+",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",         type:"universal"},
+            {slot:"A",hero:"Biscuit",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"support"},
+            {slot:"D",hero:"Bai Long", rarity:"L",tier:"T6",row:"back", role:"ST DPS",                         type:"attack"    },
+            {slot:"E",hero:"Lina",     rarity:"L",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
             {slot:"C",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"ST DMG BUFFER / BARRIER",        type:"attack"   },
           ],
           skillQueues:[{label:"8 Turn Build",queue:[
@@ -304,11 +304,11 @@ const DATA = {
           label:"Alt Team 3 (Phase 2)", note:"Lu Bu + Rachel + Shane + Lina + Biscuit. Shane leads from back row.", formation:"1b4f",
           pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
-            {slot:"B",hero:"Lu Bu",    rarity:"L++",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", type:"attack"   },
-            {slot:"A",hero:"Rachel",   rarity:"L++",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",          type:"universal"},
-            {slot:"C",hero:"Shane",    rarity:"L++",tier:"T6",row:"back", role:"ST DPS / BARRIER",               type:"attack"   },
-            {slot:"E",hero:"Lina",     rarity:"L++",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
-            {slot:"D",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"universal"},
+            {slot:"B",hero:"Lu Bu",    rarity:"L+",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", type:"attack"   },
+            {slot:"A",hero:"Rachel",   rarity:"L+",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",          type:"universal"},
+            {slot:"C",hero:"Shane",    rarity:"L",tier:"T6",row:"back", role:"ST DPS / BARRIER",               type:"attack"   },
+            {slot:"E",hero:"Lina",     rarity:"L",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
+            {slot:"D",hero:"Biscuit",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"support"},
           ],
           skillQueues:[{label:"8 Turn Build",queue:[
             {turn:8, slot:"C",skill:"SE",note:"Shane SE — burst on entry + barrier."},
@@ -384,36 +384,43 @@ const STAT_ROWS=[
 
 // ─── LOOKUP TABLES ───────────────────────────────────────────────
 const GEAR_SETS={
-  rage:  {name:"Rage Set",     icon:"⚔️",color:C.attack,  effect:"Increases ATK by 15%. When HP is above 70%, increases Crit Rate by 15%."},
-  iron:  {name:"Iron Wall Set",icon:"🛡️",color:C.defense, effect:"Increases DEF by 20%. Reduces damage taken from AoE attacks by 10%."},
-  arcane:{name:"Arcane Set",   icon:"🔮",color:C.magic,   effect:"Increases Magic ATK by 15%. Magic skills deal 10% additional damage."},
-  swift: {name:"Swift Set",    icon:"💨",color:C.green,   effect:"Increases SPD by 20. First action each battle starts with bonus 20% Crit Rate."},
-  valor: {name:"Valor Set",    icon:"🌟",color:C.gold,    effect:"Increases all stats by 8%. Activating EE recovers 5% HP."},
+  rage:  {name:"Avenger Set",      icon:img("images/gears/seticons/Avenger.png"),     color:C.attack,  effect:"Increases ATK by 15%. When HP is above 70%, increases Crit Rate by 15%."},
+  iron:  {name:"Guardian Set",     icon:img("images/gears/seticons/Guardian.png"),     color:C.defense, effect:"Increases DEF by 20%. Reduces damage taken from AoE attacks by 10%."},
+  arcane:{name:"Spellweaver Set",  icon:img("images/gears/seticons/Spellweaver.png"),  color:C.magic,   effect:"Increases Magic ATK by 15%. Magic skills deal 10% additional damage."},
+  swift: {name:"Assassin Set",     icon:img("images/gears/seticons/Assassin.png"),     color:C.green,   effect:"Increases SPD by 20. First action each battle starts with bonus 20% Crit Rate."},
+  valor: {name:"Orchestrator Set", icon:img("images/gears/seticons/Orchestrator.png"), color:C.gold,    effect:"Increases all stats by 8%. Activating EE recovers 5% HP."},
 };
 const ACC_MAIN={
-  critRate: {name:"Crit Rate",        icon:"🎯",effect:"Adds +10% Crit Rate in battle (not reflected on stat screen)."},
-  weakHit:  {name:"Weak Hit Chance",  icon:"🔍",effect:"Adds +10% Weakness Hit Chance in battle."},
-  atkBoost: {name:"ATK Boost",        icon:"💪",effect:"Adds +8% ATK in battle."},
-  atkDmg1T: {name:"1-Target ATK DMG", icon:"⚡",effect:"Adds +15% damage to single-target ATK skills."},
+  critRate: {name:"Crit Rate",        icon:img("images/gears/acc/C/IncCritRate.png"),  effect:"Adds +10% Crit Rate in battle (not reflected on stat screen)."},
+  weakHit:  {name:"Weak Hit Chance",  icon:img("images/gears/acc/C/IncWeaknessHit.png"), effect:"Adds +10% Weakness Hit Chance in battle."},
+  atkBoost: {name:"ATK Boost",        icon:img("images/gears/acc/C/IncDMG.png"),       effect:"Adds +8% ATK in battle."},
+  atkDmg1T: {name:"Boss DMG",         icon:img("images/gears/acc/R/BossDMG.png"),      effect:"Adds +15% damage to single-target ATK skills."},
+  bossDmg:  {name:"Boss DMG",         icon:img("images/gears/acc/R/BossDMG.png"),      effect:"Increases damage dealt to bosses."},
+  bleed:    {name:"Bleed",            icon:img("images/gears/acc/UC/Bleed.png"),        effect:"Inflicts Bleed on hit."},
 };
 const ACC_SUB={
-  critDmg:  {name:"Crit DMG",  icon:"💥",effect:"Adds +20% Crit DMG in battle."},
-  defIgnore:{name:"DEF Ignore",icon:"🗡️",effect:"Ignores 10% of enemy DEF when dealing damage."},
-  spdBoost: {name:"SPD Boost", icon:"⚡",effect:"Adds +15 SPD in battle."},
+  critDmg:  {name:"Crit DMG",  icon:img("images/gears/acc/C/IncDMG.png"),     effect:"Adds +20% Crit DMG in battle."},
+  defIgnore:{name:"DEF Ignore",icon:img("images/gears/acc/C/IncDMG.png"),     effect:"Ignores 10% of enemy DEF when dealing damage."},
+  spdBoost: {name:"SPD Boost", icon:img("images/gears/acc/C/IncDMG.png"),     effect:"Adds +15 SPD in battle."},
+  incDmg:   {name:"Inc DMG",   icon:img("images/gears/acc/C/IncDMG.png"),     effect:"Increases damage dealt."},
+  dot:      {name:"DoT",       icon:img("images/gears/acc/UC/DOT.png"),        effect:"Inflicts damage over time."},
 };
 const DEDI_EQ={
-  dediAtk:{name:"Destroyer Blade",icon:"🔱",color:C.attack, effect:"Dedicated Equipment — Increases ST DMG by 12% and grants +5% Crit Rate per stack of DEF Down on target."},
-  dediMag:{name:"Arcane Tome",    icon:"📖",color:C.magic,  effect:"Dedicated Equipment — Increases Magic Skill DMG by 15%. When an enemy has Vulnerability, deal 8% additional damage."},
-  dediDef:{name:"Guardian Plate", icon:"🏰",color:C.defense,effect:"Dedicated Equipment — Increases Barrier strength by 20% and reduces DEF Break duration by 1 turn."},
-  dediSpd:{name:"Wind Boots",     icon:"🌪️",color:C.green,  effect:"Dedicated Equipment — Increases SPD by 10 and allows one additional action if SPD exceeds enemy's by 20+."},
+  dediAtk:{name:"Dedicated Equipment",icon:"🔱",color:C.attack, effect:"Dedicated Equipment — Increases ST DMG by 12% and grants +5% Crit Rate per stack of DEF Down on target."},
+  dediMag:{name:"Dedicated Equipment",icon:"📖",color:C.magic,  effect:"Dedicated Equipment — Increases Magic Skill DMG by 15%. When an enemy has Vulnerability, deal 8% additional damage."},
+  dediDef:{name:"Dedicated Equipment",icon:"🏰",color:C.defense,effect:"Dedicated Equipment — Increases Barrier strength by 20% and reduces DEF Break duration by 1 turn."},
+  dediSpd:{name:"Dedicated Equipment",icon:"🌪️",color:C.green,  effect:"Dedicated Equipment — Increases SPD by 10 and allows one additional action if SPD exceeds enemy's by 20+."},
 };
 
 function hydrateHero(h){
+  const dediBase = h.dedi ? DEDI_EQ[h.dedi] : null;
+  const heroFileName = h.hero.replace(/ /g,"").replace('LuBu','Lubu').replace('BaiLong','BaiLong');
+  const eePath = img(`images/gears/ee/${h.rarity}/${heroFileName}.png`);
   return{...h,
     gear:   h.gear    ? GEAR_SETS[h.gear]   : null,
     accMain:h.accMain ? ACC_MAIN[h.accMain] : null,
     accSub: h.accSub  ? ACC_SUB[h.accSub]   : null,
-    dedi:   h.dedi    ? DEDI_EQ[h.dedi]     : null,
+    dedi:   dediBase  ? {...dediBase, icon: eePath} : null,
   };
 }
 function hydrateTeam(t){return{...t,heroes:t.heroes.map(hydrateHero)};}
@@ -465,7 +472,7 @@ function DownPopup({refProp,color,children}){
     <div ref={refProp} style={{
       position:"absolute",top:"calc(100% + 8px)",left:"50%",
       transform:"translateX(-50%)",width:230,
-      background:C.surface,border:`1px solid ${color}55`,
+      background:"#1e2a3a",border:"1px solid #3a4a5a",
       borderRadius:R,padding:12,zIndex:500,
       boxShadow:"0 8px 32px #000000cc",
     }}>
@@ -479,30 +486,59 @@ function DownPopup({refProp,color,children}){
   );
 }
 
-// ─── ICON BUTTON (gear/acc/dedi) — opens downward ───────────────
 function IconBtn({emoji,color,label,popupContent}){
   const{open,setOpen,ref}=usePopup();
+  const btnRef=useRef();
+  const[pos,setPos]=useState({x:0,y:0});
+  const handleClick=e=>{
+    e.stopPropagation();
+    if(!open){
+      const rect=btnRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const popupHeight = 120; // approximate popup height
+      if(spaceBelow < popupHeight){
+        // Open upward
+        setPos({x:rect.left+rect.width/2, y:rect.top, flip:true});
+      } else {
+        // Open downward
+        setPos({x:rect.left+rect.width/2, y:rect.bottom+8, flip:false});
+      }
+    }
+    setOpen(v=>!v);
+  };
   return(
     <div style={{position:"relative",display:"inline-block"}}>
-      <button onClick={e=>{e.stopPropagation();setOpen(v=>!v);}} title={label} style={{
+      <button ref={btnRef} onClick={handleClick} title={label} style={{
         width:"clamp(32px,4vw,52px)",height:"clamp(32px,4vw,52px)",borderRadius:0,cursor:"pointer",fontSize:"clamp(16px,2vw,24px)",
-        border:`1px solid ${open?color:color+"55"}`,
-        background:open?color+"33":color+"11",
+        border:"none",
+        background:open?color+"33":"transparent",
         display:"flex",alignItems:"center",justifyContent:"center",
         transition:"all 0.15s",transform:open?"scale(1.18)":"scale(1)",
+        padding:0,overflow:"hidden",
       }}>
-        {emoji && (emoji.startsWith("/") || emoji.startsWith("http") || emoji.endsWith(".png") || emoji.endsWith(".jpg"))
-          ? <img src={emoji.startsWith("/")||emoji.startsWith("http") ? emoji : img(emoji)}
-              alt="" style={{width:"70%",height:"70%",objectFit:"contain"}}
+        {emoji && (emoji.startsWith("http") || emoji.endsWith(".png"))
+          ? <img src={emoji} alt=""
+              style={{width:"100%",height:"100%",objectFit:"cover"}}
               onError={e=>e.target.style.display="none"}/>
           : emoji
         }
       </button>
-      {open&&(
-        <DownPopup refProp={ref} color={color}>
+      {open&&ReactDOM.createPortal(
+        <div ref={ref} style={{
+          position:"fixed",
+          left:Math.max(8,Math.min(pos.x-115,window.innerWidth-238)),
+          top:pos.flip ? pos.y-8 : pos.y,
+          transform:pos.flip ? "translateY(-100%)" : "none",
+          width:230,
+          background:"#1e2a3a",border:"1px solid #3a4a5a",
+          borderRadius:R,padding:12,zIndex:9999,
+          boxShadow:"0 8px 32px #000000cc",
+          pointerEvents:"auto",
+        }}>
           <div style={{fontSize:11,fontWeight:800,color:C.text,marginBottom:5}}>{label}</div>
           <div style={{fontSize:11,color:C.textMid,lineHeight:1.65}}>{popupContent}</div>
-        </DownPopup>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -525,7 +561,7 @@ function HeroCard({hero}){
       {menuOpen&&(
         <div ref={menuRef} style={{
           position:"absolute",top:"35%",left:"50%",transform:"translate(-50%,-50%)",
-          background:C.surface,border:`1px solid ${C.gold}66`,
+          background:"#1e2a3a",border:"1px solid #3a4a5a",
           borderRadius:R,overflow:"hidden",zIndex:500,
           boxShadow:"0 8px 32px #000000cc",minWidth:165,
         }}>
@@ -552,10 +588,9 @@ function HeroCard({hero}){
         padding:"clamp(4px,0.8vw,10px) clamp(4px,0.6vw,8px)",
         display:"flex",flexDirection:"column",alignItems:"center",gap:5,
         boxShadow:`inset 0 0 20px ${tc}0d, 0 2px 8px #00000044`,
-        overflow:"hidden",
       }}>
         <div style={{alignSelf:"flex-end",background:sc+"33",border:`1px solid ${sc}`,
-          borderRadius:"50%",width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:800,color:sc,flexShrink:0}}>{hero.slot}</div>
+          borderRadius:"50%",width:24,height:24,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800,color:sc,flexShrink:0}}>{hero.slot}</div>
         {/* Portrait — click opens hero menu */}
         <div onClick={()=>setMenuOpen(v=>!v)} style={{
           width:"100%",aspectRatio:"162/202",height:"auto",borderRadius:0,cursor:"pointer",
@@ -569,7 +604,7 @@ function HeroCard({hero}){
         onMouseLeave={e=>e.currentTarget.style.borderColor=tc+"66"}
         title="Click for hero options">
           <img
-            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero.replace(/ /g,'')}.png`)}
+            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero.replace(/ /g,'').replace('LuBu','Lubu').replace('BaiLong','BaiLong')}.png`)}
             alt={hero.hero}
             style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",borderRadius:0}}
             onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="flex";}}
@@ -578,31 +613,31 @@ function HeroCard({hero}){
             justifyContent:"center",fontSize:9,fontWeight:700,color:tc,textAlign:"center",
             lineHeight:1.3,padding:4}}>{hero.hero.toUpperCase()}</span>
         </div>
-        <div style={{fontSize:12,fontWeight:800,color:C.text,textAlign:"center"}}>{hero.hero}</div>
-        {/* 3 icon slots */}
+        <div style={{fontSize:14,fontWeight:800,color:C.text,textAlign:"center"}}>{hero.hero}</div>
+        {/* 2x2 icon grid: SetIcon | EE / MainAcc | SubAcc */}
         {(hero.gear||hero.accMain||hero.dedi)&&(
-          <div style={{display:"flex",gap:"clamp(2px,0.4vw,6px)",alignItems:"center",justifyContent:"center"}}>
+          <div style={{
+            display:"grid",gridTemplateColumns:"1fr 1fr",
+            gap:"clamp(2px,0.3vw,4px)",
+            width:"fit-content",margin:"0 auto",
+          }}>
             {hero.gear&&<IconBtn emoji={hero.gear.icon}    color={hero.gear.color}  label={hero.gear.name}    popupContent={hero.gear.effect}/>}
-            {(hero.accMain||hero.accSub)&&(
-              <div style={{display:"flex",flexDirection:"column",gap:4}}>
-                {hero.accMain&&<IconBtn emoji={hero.accMain.icon} color={C.blue}   label={hero.accMain.name} popupContent={hero.accMain.effect}/>}
-                {hero.accSub &&<IconBtn emoji={hero.accSub.icon}  color={C.purple} label={hero.accSub.name}  popupContent={hero.accSub.effect}/>}
-              </div>
-            )}
-            {hero.dedi&&<IconBtn emoji={hero.dedi.icon} color={hero.dedi.color} label={hero.dedi.name} popupContent={hero.dedi.effect}/>}
+            {hero.dedi&&<IconBtn emoji={hero.dedi.icon}    color={hero.dedi.color}  label={hero.dedi.name}    popupContent={hero.dedi.effect}/>}
+            {hero.accMain&&<IconBtn emoji={hero.accMain.icon} color={C.blue}        label={hero.accMain.name} popupContent={hero.accMain.effect}/>}
+            {hero.accSub &&<IconBtn emoji={hero.accSub.icon}  color={C.purple}      label={hero.accSub.name}  popupContent={hero.accSub.effect}/>}
           </div>
         )}
-        <div style={{fontSize:8,color:C.textMid,textAlign:"center",
-          background:C.border,borderRadius:RS,padding:"3px 5px",lineHeight:1.4,width:"100%"}}>{hero.role}</div>
+        <div style={{fontSize:11,color:C.textMid,textAlign:"center",
+          background:C.border,borderRadius:RS,padding:"4px 6px",lineHeight:1.4,width:"100%"}}>{hero.role}</div>
         {/* Stats toggle */}
         <button onClick={e=>{e.stopPropagation();setStatsOpen(v=>!v);}} style={{
           display:"flex",alignItems:"center",justifyContent:"center",gap:3,
           background:"none",border:`1px solid ${C.border}`,borderRadius:RS,
-          padding:"2px 7px",cursor:"pointer",fontSize:9,color:C.textDim,width:"100%",
+          padding:"2px 7px",cursor:"pointer",fontSize:11,color:C.textDim,width:"100%",
         }}>{statsOpen?"▲":"▼"} Stats</button>
         {statsOpen&&(
-          <div style={{width:"100%",background:C.surface,borderRadius:RS,
-            padding:"6px 7px",border:`1px solid ${C.border}`,
+          <div style={{width:"100%",background:"#1a2a3a",borderRadius:RS,
+            padding:"8px 9px",border:`1px solid ${C.border}`,
             display:"flex",flexDirection:"column",gap:3}}>
             {[
               {label:"SPD", value:hero.speed!=null?String(hero.speed):"—"},
@@ -611,8 +646,8 @@ function HeroCard({hero}){
               {label:"EE",  value:hero.ee??"—"},
             ].map(({label,value})=>(
               <div key={label} style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                <span style={{fontSize:9,color:C.textDim,fontWeight:600}}>{label}</span>
-                <span style={{fontSize:9,color:value==="—"||value==="N/A"?C.textDim:C.textMid,fontWeight:600}}>{value}</span>
+                <span style={{fontSize:11,color:C.textMid,fontWeight:600}}>{label}</span>
+                <span style={{fontSize:11,color:value==="—"||value==="N/A"?C.textDim:C.text,fontWeight:700}}>{value}</span>
               </div>
             ))}
           </div>
@@ -639,7 +674,7 @@ function CompactHeroCard({hero}){
       {menuOpen&&(
         <div ref={menuRef} style={{
           position:"absolute",top:"35%",left:"50%",transform:"translate(-50%,-50%)",
-          background:C.surface,border:`1px solid ${C.gold}66`,
+          background:"#1e2a3a",border:"1px solid #3a4a5a",
           borderRadius:R,overflow:"hidden",zIndex:500,
           boxShadow:"0 8px 32px #000000cc",minWidth:165,
         }}>
@@ -675,7 +710,7 @@ function CompactHeroCard({hero}){
         onMouseLeave={e=>e.currentTarget.style.borderColor=tc+"55"}
         title="Click for hero options">
           <img
-            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero.replace(/ /g,'')}.png`)}
+            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero.replace(/ /g,'').replace('LuBu','Lubu').replace('BaiLong','BaiLong')}.png`)}
             alt={hero.hero}
             style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",borderRadius:0}}
             onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="flex";}}
@@ -732,7 +767,7 @@ function FormationGrid({heroes,formation,compact=false}){
   const Card=compact?CompactHeroCard:HeroCard;
   const backH=compact?COMPACT_H:BACK_ROW_H;
   return(
-    <div style={{flex:1,minWidth:0,display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:4,overflow:"hidden"}}>
+    <div style={{flex:1,minWidth:0,display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:4}}>
       {grid.map((col,i)=>(
         <div key={i} style={{display:"flex",flexDirection:"column",minWidth:0}}>
           {/* Back row cell — fixed height creates the stagger gap */}
@@ -787,10 +822,10 @@ function PetRow({pet,isPrimary}){
           />
         </div>
         <div style={{textAlign:"left",minWidth:0,flex:1,overflow:"hidden",paddingRight:4}}>
-          <div style={{fontSize:11,fontWeight:700,
+          <div style={{fontSize:13,fontWeight:700,
             color:open?C.gold:isPrimary?C.gold:C.textMid,
             whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{pet.name}</div>
-          <div style={{fontSize:8,color:C.textDim,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{isPrimary?"Recommended":"Alternative"}</div>
+          <div style={{fontSize:10,color:C.textDim,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{isPrimary?"Recommended":"Alternative"}</div>
         </div>
       </button>
       {open&&(
@@ -966,7 +1001,7 @@ function SkillTimeline({queue,heroes}){
                         style={{width:"80%",height:"80%",objectFit:"contain"}}
                         onError={e=>{e.target.style.display="none";}}/>
                     : <>
-                        <span style={{fontSize:8,fontWeight:800,color:sc}}>{hero?.hero?.slice(0,4).toUpperCase()}</span>
+                        <span style={{fontSize:9,fontWeight:800,color:sc}}>{hero?.hero?.slice(0,4).toUpperCase()}</span>
                         <span style={{fontSize:8,fontWeight:800,padding:"1px 4px",borderRadius:0,
                           background:skColor(entry.skill),color:"#fff"}}>{entry.skill}</span>
                       </>
@@ -1030,13 +1065,13 @@ function BossSkillBtn({skill}){
           : skill.icon
         }
       </button>
-      {open&&(
+      {open&&ReactDOM.createPortal(
         <div ref={tooltipRef} style={{
           position:"fixed",
           left:Math.max(8,Math.min(pos.x-124,window.innerWidth-256)),
           top:pos.y,
           width:248,
-          background:C.surface,border:`1px solid ${tc}55`,
+          background:"#1e2a3a",border:"1px solid #3a4a5a",
           borderRadius:R,padding:14,zIndex:9999,
           boxShadow:"0 12px 40px #000000dd",
           pointerEvents:"auto",
@@ -1053,7 +1088,8 @@ function BossSkillBtn({skill}){
             ))}
           </div>
           <p style={{fontSize:11,color:C.textMid,lineHeight:1.65,margin:0}}>{skill.description}</p>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -1068,14 +1104,14 @@ function TeamBlock({team,isMain,compactGrid=false}){
   const grid=buildGrid(team.heroes,team.formation||"1b4f");
   const heroOrder=gridHeroOrder(grid);
   return(
-    <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:R,marginBottom:18}}>
+    <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:R,marginBottom:18,position:"relative",zIndex:0}}>
       <div style={{padding:"10px 16px",borderBottom:`1px solid ${C.border}`,
         display:"flex",alignItems:"center",gap:10,
         background:isMain?`linear-gradient(90deg,${C.gold}18 0%,${C.gold}06 60%,transparent 100%)`:"transparent",
         borderRadius:"0 14px 0 0",borderBottom:`1px solid ${isMain?C.gold+"33":C.border}`}}>
         {isMain&&<span style={{background:C.gold+"22",border:`1px solid ${C.gold}`,
           borderRadius:RS,padding:"2px 8px",fontSize:9,color:C.gold,fontWeight:700}}>★ MAIN TEAM</span>}
-        <span style={{fontSize:14,fontWeight:700,color:C.text}}>{team.label}</span>
+        <span style={{fontSize:16,fontWeight:700,color:C.text}}>{team.label}</span>
       </div>
       {team.note&&(
         <div style={{padding:"8px 16px",borderBottom:`1px solid ${C.border}`,
@@ -1164,7 +1200,7 @@ function App(){
   return(
     <div style={{background:C.bg,minHeight:"100vh",fontFamily:FF,color:C.text,
       backgroundImage:"radial-gradient(ellipse 80% 60% at 50% 0%, #0d2040 0%, transparent 70%)",
-      overflowX:"auto",
+      overflowX:"visible",
       minWidth:1024,
     }}>
 
@@ -1238,13 +1274,13 @@ function App(){
             position:"sticky",top:68,alignSelf:"flex-start",
             background:C.surface,
             border:`1px solid ${C.gold}44`,
-            borderRadius:RL,overflow:"hidden",
+            borderRadius:RL,
+            overflow:"hidden",
             boxShadow:`0 0 30px ${C.gold}0d, inset 0 0 40px #00000033`,
           }}>
             {/* Boss portrait area — 242:578 aspect ratio */}
             <div style={{
               width:"100%",
-              height:380,
               background:"linear-gradient(180deg,#120820 0%,#0a1428 40%,#06101c 100%)",
               position:"relative",
               display:"flex",alignItems:"center",justifyContent:"center",
@@ -1262,20 +1298,20 @@ function App(){
               <img
                 src={img(`images/bosses/${DATA.boss.imageFolder||"Advent_GoD"}/${DATA.boss.imageFile||"god-of-destruction"}.png`)}
                 alt={BOSS.name}
-                style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",zIndex:1}}
+                style={{width:"100%",height:"auto",display:"block",zIndex:1,position:"relative"}}
                 onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="block";}}
               />
               <div style={{display:"none",fontSize:90,zIndex:1,filter:"drop-shadow(0 0 30px #ff000088)"}}>👹</div>
-              {/* Bottom fade blend */}
+              {/* Bottom border line */}
               <div style={{
-                position:"absolute",bottom:0,left:0,right:0,height:100,
-                background:`linear-gradient(transparent,${C.surface})`,
-                pointerEvents:"none",
+                position:"absolute",bottom:0,left:0,right:0,height:2,
+                background:`linear-gradient(90deg,transparent,${C.gold}44,transparent)`,
+                pointerEvents:"none",zIndex:2,
               }}/>
             </div>
 
             {/* Boss info */}
-            <div style={{padding:"0 18px 20px",marginTop:-24,position:"relative",zIndex:2}}>
+            <div style={{padding:"14px 18px 20px",position:"relative",zIndex:2}}>
               <div style={{fontSize:9,color:C.gold,fontWeight:700,
                 letterSpacing:3,textTransform:"uppercase",marginBottom:4}}>{BOSS.mode}</div>
               <h2 style={{fontSize:19,fontWeight:900,color:C.text,margin:"0 0 2px",lineHeight:1.2}}>
@@ -1328,9 +1364,14 @@ function App(){
               ))}
             </div>
 
-            <div style={{fontSize:10,fontWeight:700,color:C.textDim,
-              letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>
-              Main Teams — {phase.label}
+            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
+              <div style={{flex:1,height:1,background:`linear-gradient(90deg,transparent,${C.gold}44)`}}/>
+              <div style={{display:"flex",alignItems:"center",gap:8,background:C.surface,border:`1px solid ${C.gold}55`,borderRadius:RS,padding:"6px 16px",boxShadow:`0 0 12px ${C.gold}22`}}>
+                <span style={{color:C.gold,fontSize:12}}>◆</span>
+                <span style={{fontSize:11,fontWeight:700,color:C.gold,letterSpacing:3,textTransform:"uppercase"}}>Main Teams — {phase.label}</span>
+                <span style={{color:C.gold,fontSize:12}}>◆</span>
+              </div>
+              <div style={{flex:1,height:1,background:`linear-gradient(90deg,${C.gold}44,transparent)`}}/>
             </div>
 
             {phase.teams.map((team,i)=>(
@@ -1338,10 +1379,15 @@ function App(){
             ))}
 
             {phase.altTeams?.length>0&&(
-              <div style={{borderTop:`1px solid ${C.border}`,paddingTop:20,marginTop:4}}>
-                <div style={{fontSize:10,fontWeight:700,color:C.textDim,
-                  letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>
-                  Alternate Teams — {phase.label}
+              <div style={{marginTop:12}}>
+                <div style={{display:"flex",alignItems:"center",gap:12,margin:"24px 0 16px"}}>
+                  <div style={{flex:1,height:1,background:`linear-gradient(90deg,transparent,${C.textDim}44)`}}/>
+                  <div style={{display:"flex",alignItems:"center",gap:8,background:C.surface,border:`1px solid ${C.textDim}44`,borderRadius:RS,padding:"6px 16px"}}>
+                    <span style={{color:C.textMid,fontSize:12}}>◆</span>
+                    <span style={{fontSize:11,fontWeight:700,color:C.textMid,letterSpacing:3,textTransform:"uppercase"}}>Alternate Teams — {phase.label}</span>
+                    <span style={{color:C.textMid,fontSize:12}}>◆</span>
+                  </div>
+                  <div style={{flex:1,height:1,background:`linear-gradient(90deg,${C.textDim}44,transparent)`}}/>
                 </div>
                 {phase.altTeams.map((team,i)=>(
                   <AltTeamBlock key={`alt-${activePhase}-${i}`} team={team}/>
