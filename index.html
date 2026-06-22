@@ -29,11 +29,11 @@ const DATA = {
     description:"A devastating multi-phase boss requiring precise team coordination and strict stat thresholds. Phase transitions occur at Turn 8 or Turn 12 — faster clears reward higher scores.",
     element:"Dark", difficulty:"Extreme",
     skills:[
-      {id:1,icon:"💥",name:"Destruction Strike", type:"Active",          target:"All Enemies",   cooldown:"4 turns", description:"Deals massive physical damage to all enemies and reduces DEF by 30% for 2 turns. Removes barriers before dealing damage."},
-      {id:2,icon:"🌀",name:"Void Rupture",        type:"Active",          target:"Single Target", cooldown:"6 turns", description:"Deals single-target magic damage equal to 800% ATK. Inflicts Silence for 1 turn. Cannot be resisted."},
-      {id:3,icon:"☠️",name:"Annihilation Aura",  type:"Passive",         target:"All Enemies",   cooldown:"Passive", description:"At the start of each turn, reduces all enemy Crit Rate by 15%. Cannot be dispelled."},
-      {id:4,icon:"⚡",name:"Phase Break",         type:"Phase Transition",target:"Self",          cooldown:"Once",    description:"Triggers at 50% HP. Resets all cooldowns, fully heals, and enters Phase 2."},
-      {id:5,icon:"🔱",name:"Dark Cataclysm",      type:"Ultimate",        target:"Single Target", cooldown:"8 turns", description:"Phase 2 only. Deals 1200% ATK dark damage and inflicts DEF Break (50%) for 3 turns. Used when HP drops below 30%."},
+      {id:1,  icon:"ADVENTGOD_PASSIVE.png",   name:"Will of Destruction",       type:"Passive",        target:"Self",           cooldown:"Always Active",   description:"Grants Physical Resistance (Phase 1)/Grants Magic Resistance (Phase 2)."},
+      {id:2,  icon:"ADVENTGOD_BA.png",        name:"Basic Attack",              type:"Basic Attack",   target:"All Enemies",    cooldown:"-",               description:"Deals DMG equal to 100% of PATK 1 time. Grants 1 Stack of PDMG Boost (Increases PDMG by 10%) [Max 10 stacks]."},
+      {id:3,  icon:"ADVENTGOD_S1.png",        name:"Punishment of Destruction", type:"S1",             target:"All Enemies",    cooldown:"35s",             description:"Deals DEF-Ignoring DMG equal to 57% of PATK 3 times."},
+      {id:4,  icon:"ADVENTGOD_S2.png",        name:"Destructive Touch",         type:"S2",             target:"All Enemies",    cooldown:"72s",             description:"Deals DMG equal to 50% of PATK 1 time. 50% HP Alteration."},
+      {id:5,  icon:"ADVENTGOD_S2.png",        name:"Annihilating Light",        type:"S3",             target:"3 Enemies",      cooldown:"60s",             description:"Deals DMG equal to 300% of PATK 1 time."},
     ],
   },
   videoUrl:"https://youtu.be/KNPZ8jciXr0",
@@ -52,16 +52,16 @@ const DATA = {
           label:"Top Scoring", primary:true, formation:"1b4f",
           extraNotes:"Ensure Daisy (A) always acts first. Stack DEF Down before Xiao Qiao's SE. If unable to clear Phase 1 by Turn 8, swap to the Turn 12 entry strategy for Phase 2.",
           pets:[
-            {name:"Yeonji",rarity:"SqL",icon:"🌟",passive:"Increases all allies' Crit Rate and ATK at the start of battle."},
-            {name:"Igris", rarity:"SqR",icon:"⚔️",passive:"Increases all allies' Physical ATK at the start of battle."},
-            {name:"Note",  rarity:"SqR",icon:"🎵",passive:"Increases all allies' Crit DMG at the start of battle."},
+            {name:"Yeonji", rarity:"SqL",    passive:"Increases all allies' Crit Rate and ATK at the start of battle."},
+            {name:"Igris",  rarity:"SqR",    passive:"Increases all allies' Physical ATK at the start of battle."},
+            {name:"Note",   rarity:"SqR",    passive:"Increases all allies' Crit DMG at the start of battle."},
           ],
           heroes:[
-            {slot:"C",hero:"Xiao Qiao",rarity:"L",tier:"T6",row:"front",role:"ST DPS",         ee:"DMG AMP",speed:29,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"D",hero:"Melia",    rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   ee:"—",       speed:29,atk:"—",      critDmg:"~200%",  type:"magic",gear:"arcane",accMain:"bossDmg",accSub:"incDmg",dedi:"dediMag", critRate:{base:5,t4:"-", gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"A",hero:"Daisy",    rarity:"L",tier:"T6",row:"back", role:"ST DPS",          ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~270%+", type:"magic",   gear:"rage",  accMain:"bossDmg", accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:68,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
-            {slot:"E",hero:"Vanessa",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",    ee:"DMG AMP",speed:29,atk:"~3.7K",  critDmg:"~200%",  type:"magic",    gear:"arcane",accMain:"bossDmg",accSub:"incDmg",  dedi:"dediMag", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
-            {slot:"B",hero:"Lina",     rarity:"L",tier:"T0",row:"front",role:"+DMG / DEF DOWN (A)",ee:"—",    speed:31,atk:"N/A",   critDmg:"—",       type:"support",  gear:"iron",  accMain:"bleed",accSub:"dot", dedi:"dediDef", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"C",hero:"Xiao Qiao",rarity:"L",tier:"T6",row:"front",        role:"ST DPS",                  ee:"DMG AMP",       speed:29,   atk:"~4.2K+",   critDmg:"~240%+",   type:"magic",   gear:"rage",    accMain:"bossDmg",  accSub:"incDmg",    dedi:"dedi", dediEffect:"DMG Amplification",    critRate:{base:5,  t4:"-", gears:84,   acc:10, passive:"-",ally:"-",total:99 }, weakHit:{base:"-",  t4:"-", gears:"-",  acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"D",hero:"Melia",    rarity:"L++",tier:"T0",row:"front",      role:"MAGIC VUL (P)",           ee:"—",             speed:29,   atk:"—",        critDmg:"~200%",    type:"magic",   gear:"arcane",  accMain:"bossDmg",  accSub:"incDmg",    dedi:"dedi", dediEffect:"Resilience",           critRate:{base:5,  t4:"-", gears:84,   acc:10, passive:"-",ally:"-",total:99 }, weakHit:{base:"-",  t4:"-", gears:"-",  acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"A",hero:"Daisy",    rarity:"L",tier:"T6",row:"back",         role:"ST DPS",                  ee:"DMG AMP",       speed:33,   atk:"~4.5K+",   critDmg:"~270%+",   type:"magic",   gear:"rage",    accMain:"bossDmg",  accSub:"incDmg",    dedi:"dedi", dediEffect:"DMG Amplification",    critRate:{base:5,  t4:18,  gears:68,   acc:10, passive:"-",ally:"-",total:101}, weakHit:{base:5,    t4:10,  gears:30,   acc:10, passive:"-",ally:"-",total:55}},
+            {slot:"E",hero:"Vanessa",  rarity:"L+",tier:"T6",row:"front",       role:"DEF DOWN (P)",            ee:"DMG AMP",       speed:29,   atk:"~3.7K",    critDmg:"~200%",    type:"magic",   gear:"arcane",  accMain:"bossDmg",  accSub:"incDmg",    dedi:"dedi", dediEffect:"DMG Amplification",    critRate:{base:5,  t4:18,  gears:76,   acc:"-",passive:"-",ally:"-",total:99 }, weakHit:{base:"-",  t4:"-", gears:"-",  acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"B",hero:"Lina",     rarity:"L",tier:"T0",row:"front",        role:"+DMG / DEF DOWN (A)",     ee:"—",             speed:31,   atk:"N/A",      critDmg:"—",        type:"support", gear:"iron",    accMain:"bleed",    accSub:"dot",       dedi:"dedi", dediEffect:"HP%",                  critRate:{base:5,  t4:18,  gears:76,   acc:"-",passive:"-",ally:"-",total:99 }, weakHit:{base:"-",  t4:"-", gears:"-",  acc:"-",passive:"-",ally:"-",total:"-"}},
           ],
           skillQueues:[{label:"Standard",queue:[
             {turn:0, slot:"C",skill:"SE",note:"Xiao Qiao SE — open with ST DPS immediately."},
@@ -77,10 +77,10 @@ const DATA = {
           label:"Top Scoring 2", primary:false, formation:"1b4f",
           extraNotes:"Alternative top scoring composition. Reginleif leads as back row anchor. Pascal provides DEF Down from the back.",
           pets:[
-            {name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."},
+            {name:"Jeo",rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."},
           ],
           heroes:[
-            {slot:"A",hero:"Reginleif", rarity:"L+",tier:"T6",row:"front",role:"ST DPS",         ee:"—",       speed:33,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
+            {slot:"A",hero:"Reginleif", rarity:"L+",tier:"T6",row:"front",      role:"ST DPS",         ee:"—",       speed:33,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
             {slot:"B",hero:"Xiao Qiao", rarity:"L",tier:"T6",row:"front",role:"ST DPS",         ee:"DMG AMP",speed:29,atk:"~5K+",   critDmg:"~230%+",type:"magic",   gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
             {slot:"E",hero:"Pascal",    rarity:"L",tier:"T6",row:"back", role:"DEF DOWN (P)",    ee:"DMG AMP",speed:29,atk:"~5K+",   critDmg:"~270%+",type:"magic",   gear:"arcane",accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:91,acc:10, passive:"-",ally:"-",total:100},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
             {slot:"C",hero:"Miho",      rarity:"L",tier:"SE",row:"front",role:"ST DMG BUFFER",  ee:"DMG AMP",speed:29,atk:"~3.7K",  critDmg:"~200%",  type:"magic",    gear:"arcane",accMain:"bossDmg",accSub:"incDmg",  dedi:"dediMag", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
@@ -100,7 +100,7 @@ const DATA = {
       altTeams:[
         {
           label:"Alt Team 1", note:"Xiao Qiao + Vanessa + Pascal + Chancellor + Miho. Skill queue and team are independent.", formation:"1b4f",
-          pets:[{name:"Yeonji",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Yeonji",rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
             {slot:"A",hero:"Xiao Qiao",rarity:"L",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
             {slot:"B",hero:"Vanessa",   rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",    type:"magic"    },
@@ -118,7 +118,7 @@ const DATA = {
         },
         {
           label:"Alt Team 2", note:"Reginleif + Xiao Qiao + Pascal + Melia + Miho.", formation:"1b4f",
-          pets:[{name:"Yeonji",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Yeonji",rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
             {slot:"A",hero:"Reginleif", rarity:"L+",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
             {slot:"B",hero:"Xiao Qiao", rarity:"L",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
@@ -136,7 +136,7 @@ const DATA = {
         },
         {
           label:"Alt Team 3", note:"Vanessa + Xiao Qiao + Orly + Daisy + Melia. Skill queue and team are independent.", formation:"1b4f",
-          pets:[{name:"Yeonji",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Yeonji",rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
             {slot:"A",hero:"Vanessa",   rarity:"L+",tier:"T0", row:"front",role:"DEF DOWN (P)",    type:"magic"    },
             {slot:"B",hero:"Xiao Qiao", rarity:"L",tier:"T6", row:"back", role:"ST DPS",          type:"magic"    },
@@ -161,9 +161,9 @@ const DATA = {
           label:"Top Scoring (8 Turn Build)", primary:true, formation:"1b4f",
           extraNotes:"Bai Long (A) is in the back row. Fai (B), Xiao (C), Lu Bu (D) and Biscuit (E) are in the front. Enter at Turn 8 for Turn 8 Entry queue, or Turn 12 for the Turn 12 Entry queue.",
           pets:[
-            {name:"Windy", rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."},
-            {name:"Eirin", rarity:"SqL",icon:"🐱", passive:"Increases all allies' Crit Rate by 5% and ATK by 3% at the start of battle."},
-            {name:"Sherry",rarity:"SqR",icon:"✨", passive:"Increases all allies' Crit DMG at the start of battle."},
+            {name:"Windy", rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."},
+            {name:"Eirin", rarity:"SqL",icon:"", passive:"Increases all allies' Crit Rate by 5% and ATK by 3% at the start of battle."},
+            {name:"Sherry",rarity:"SqR",icon:"", passive:"Increases all allies' Crit DMG at the start of battle."},
           ],
           heroes:[
             {slot:"B",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"PHYS VUL (P) / ST DPS",         ee:"DMG AMP",speed:29,atk:"~4K+",   critDmg:"~250%+",type:"attack",  gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
@@ -209,7 +209,7 @@ const DATA = {
           label:"Top Scoring 2 (Same Build)", primary:false, formation:"1b4f",
           extraNotes:"Same hero composition as Top Scoring 1 but with different speed tuning for the 4 Turn Build. D=29, E=25, C=33, B=35, A=37.",
           pets:[
-            {name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."},
+            {name:"Windy",rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."},
           ],
           heroes:[
             {slot:"D",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"PHYS VUL (P) / ST DPS",         ee:"DMG AMP",speed:29,atk:"~4K+",   critDmg:"~250%+",type:"attack",  gear:"rage",  accMain:"bossDmg",accSub:"incDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
@@ -262,7 +262,7 @@ const DATA = {
       altTeams:[
         {
           label:"Alt Team 1 (Phase 2)", note:"Rachel + Biscuit + Bai Long + Lina + Lu Bu.", formation:"1b4f",
-          pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Windy",rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
             {slot:"B",hero:"Rachel",   rarity:"L+",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",         type:"universal"},
             {slot:"A",hero:"Biscuit",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"support"},
@@ -282,7 +282,7 @@ const DATA = {
         },
         {
           label:"Alt Team 2 (Phase 2)", note:"Rachel + Biscuit + Bai Long + Lina + Fai. Fai replaces Lu Bu.", formation:"1b4f",
-          pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Windy",rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
             {slot:"B",hero:"Rachel",   rarity:"L+",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",         type:"universal"},
             {slot:"A",hero:"Biscuit",  rarity:"L+",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"support"},
@@ -302,7 +302,7 @@ const DATA = {
         },
         {
           label:"Alt Team 3 (Phase 2)", note:"Lu Bu + Rachel + Shane + Lina + Biscuit. Shane leads from back row.", formation:"1b4f",
-          pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          pets:[{name:"Windy",rarity:"SqL",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
           heroes:[
             {slot:"B",hero:"Lu Bu",    rarity:"L+",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", type:"attack"   },
             {slot:"A",hero:"Rachel",   rarity:"L+",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",          type:"universal"},
@@ -384,11 +384,11 @@ const STAT_ROWS=[
 
 // ─── LOOKUP TABLES ───────────────────────────────────────────────
 const GEAR_SETS={
-  rage:  {name:"Avenger Set",      icon:img("images/gears/seticons/Avenger.png"),     color:C.attack,  effect:"Increases ATK by 15%. When HP is above 70%, increases Crit Rate by 15%."},
-  iron:  {name:"Guardian Set",     icon:img("images/gears/seticons/Guardian.png"),     color:C.defense, effect:"Increases DEF by 20%. Reduces damage taken from AoE attacks by 10%."},
-  arcane:{name:"Spellweaver Set",  icon:img("images/gears/seticons/Spellweaver.png"),  color:C.magic,   effect:"Increases Magic ATK by 15%. Magic skills deal 10% additional damage."},
-  swift: {name:"Assassin Set",     icon:img("images/gears/seticons/Assassin.png"),     color:C.green,   effect:"Increases SPD by 20. First action each battle starts with bonus 20% Crit Rate."},
-  valor: {name:"Orchestrator Set", icon:img("images/gears/seticons/Orchestrator.png"), color:C.gold,    effect:"Increases all stats by 8%. Activating EE recovers 5% HP."},
+  avenger:  {name:"Avenger Set",      icon:img("images/gears/seticons/Avenger.png"),      effect:"Increases ATK by 15%. When HP is above 70%, increases Crit Rate by 15%."},
+  guardian:  {name:"Guardian Set",     icon:img("images/gears/seticons/Guardian.png"),      effect:"Increases DEF by 20%. Reduces damage taken from AoE attacks by 10%."},
+  spellweaver:{name:"Spellweaver Set",  icon:img("images/gears/seticons/Spellweaver.png"),     effect:"Increases Magic ATK by 15%. Magic skills deal 10% additional damage."},
+  assassin: {name:"Assassin Set",     icon:img("images/gears/seticons/Assassin.png"),     effect:"Increases SPD by 20. First action each battle starts with bonus 20% Crit Rate."},
+  orchestrator: {name:"Orchestrator Set", icon:img("images/gears/seticons/Orchestrator.png"),     effect:"Increases all stats by 8%. Activating EE recovers 5% HP."},
 };
 const ACC_MAIN={
   critRate: {name:"Crit Rate",        icon:img("images/gears/acc/C/IncCritRate.png"),  effect:"Adds +10% Crit Rate in battle (not reflected on stat screen)."},
@@ -406,10 +406,7 @@ const ACC_SUB={
   dot:      {name:"DoT",       icon:img("images/gears/acc/UC/DOT.png"),        effect:"Inflicts damage over time."},
 };
 const DEDI_EQ={
-  dediAtk:{name:"Dedicated Equipment",icon:"🔱",color:C.attack, effect:"Dedicated Equipment — Increases ST DMG by 12% and grants +5% Crit Rate per stack of DEF Down on target."},
-  dediMag:{name:"Dedicated Equipment",icon:"📖",color:C.magic,  effect:"Dedicated Equipment — Increases Magic Skill DMG by 15%. When an enemy has Vulnerability, deal 8% additional damage."},
-  dediDef:{name:"Dedicated Equipment",icon:"🏰",color:C.defense,effect:"Dedicated Equipment — Increases Barrier strength by 20% and reduces DEF Break duration by 1 turn."},
-  dediSpd:{name:"Dedicated Equipment",icon:"🌪️",color:C.green,  effect:"Dedicated Equipment — Increases SPD by 10 and allows one additional action if SPD exceeds enemy's by 20+."},
+  dedi:{name:"Dedicated Equipment", icon:"", effect:"Dedicated Equipment for this hero."},
 };
 
 function hydrateHero(h){
@@ -420,7 +417,7 @@ function hydrateHero(h){
     gear:   h.gear    ? GEAR_SETS[h.gear]   : null,
     accMain:h.accMain ? ACC_MAIN[h.accMain] : null,
     accSub: h.accSub  ? ACC_SUB[h.accSub]   : null,
-    dedi:   dediBase  ? {...dediBase, icon: eePath} : null,
+    dedi: dediBase ? {...dediBase, icon: eePath, effect: h.dediEffect || dediBase.effect} : null,
   };
 }
 function hydrateTeam(t){return{...t,heroes:t.heroes.map(hydrateHero)};}
@@ -486,7 +483,7 @@ function DownPopup({refProp,color,children}){
   );
 }
 
-function IconBtn({emoji,color,label,popupContent}){
+function IconBtn({emoji,label,popupContent}){
   const{open,setOpen,ref}=usePopup();
   const btnRef=useRef();
   const[pos,setPos]=useState({x:0,y:0});
@@ -621,10 +618,10 @@ function HeroCard({hero}){
             gap:"clamp(2px,0.3vw,4px)",
             width:"fit-content",margin:"0 auto",
           }}>
-            {hero.gear&&<IconBtn emoji={hero.gear.icon}    color={hero.gear.color}  label={hero.gear.name}    popupContent={hero.gear.effect}/>}
-            {hero.dedi&&<IconBtn emoji={hero.dedi.icon}    color={hero.dedi.color}  label={hero.dedi.name}    popupContent={hero.dedi.effect}/>}
-            {hero.accMain&&<IconBtn emoji={hero.accMain.icon} color={C.blue}        label={hero.accMain.name} popupContent={hero.accMain.effect}/>}
-            {hero.accSub &&<IconBtn emoji={hero.accSub.icon}  color={C.purple}      label={hero.accSub.name}  popupContent={hero.accSub.effect}/>}
+            {hero.gear&&<IconBtn emoji={hero.gear.icon}      label={hero.gear.name}    popupContent={hero.gear.effect}/>}
+            {hero.dedi&&<IconBtn emoji={hero.dedi.icon}       label={hero.dedi.name}    popupContent={hero.dedi.effect}/>}
+            {hero.accMain&&<IconBtn emoji={hero.accMain.icon}     label={hero.accMain.name} popupContent={hero.accMain.effect}/>}
+            {hero.accSub &&<IconBtn emoji={hero.accSub.icon}    label={hero.accSub.name}  popupContent={hero.accSub.effect}/>}
           </div>
         )}
         <div style={{fontSize:11,color:C.textMid,textAlign:"center",
@@ -818,7 +815,7 @@ function PetRow({pet,isPrimary}){
         <div style={{width:"clamp(36px,4vw,52px)",height:"clamp(36px,4vw,52px)",flexShrink:0,flexGrow:0,borderRadius:RS,overflow:"hidden",background:C.card}}>
           <img src={img(`images/pets/${pet.rarity}/${pet.name}.png`)} alt={pet.name}
             style={{width:"100%",height:"100%",objectFit:"cover"}}
-            onError={e=>{e.target.style.display="none";e.target.parentNode.innerHTML=`<span style="font-size:26px;line-height:52px;display:block;text-align:center">${pet.icon||"🐾"}</span>`;}}
+            onError={e=>{e.target.style.display="none";e.target.style.opacity="0.3";}}
           />
         </div>
         <div style={{textAlign:"left",minWidth:0,flex:1,overflow:"hidden",paddingRight:4}}>
@@ -997,8 +994,8 @@ function SkillTimeline({queue,heroes}){
               }}>
                 {entry&&<>
                   {entry.skillIcon
-                    ? <img src={img(`images/skills/${entry.skillIcon}`)} alt={entry.skill}
-                        style={{width:"80%",height:"80%",objectFit:"contain"}}
+                    ? <img src={img(`images/skills/heroes/${entry.skillIcon}`)} alt={entry.skill}
+                        style={{width:"100%",height:"100%",objectFit:"contain"}}
                         onError={e=>{e.target.style.display="none";}}/>
                     : <>
                         <span style={{fontSize:9,fontWeight:800,color:sc}}>{hero?.hero?.slice(0,4).toUpperCase()}</span>
@@ -1059,7 +1056,7 @@ function BossSkillBtn({skill}){
       onMouseLeave={e=>{e.currentTarget.style.transform=open?"scale(1.12)":"scale(1)";e.currentTarget.style.borderColor=open?tc:C.border;}}
       >
         {skill.icon && (skill.icon.endsWith(".png")||skill.icon.endsWith(".jpg"))
-          ? <img src={img(`images/skills/${skill.icon}`)} alt={skill.name}
+          ? <img src={img(`images/skills/bosses/${skill.icon}`)} alt={skill.name}
               style={{width:"70%",height:"70%",objectFit:"contain"}}
               onError={e=>e.target.style.display="none"}/>
           : skill.icon
