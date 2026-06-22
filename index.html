@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>7KRe:BIRTH — Team Builds</title>
+  <meta name="description" content="Seven Knights Re:BIRTH community reference site — team builds, guides and tier lists."/>
+  <!-- React + Babel for JSX -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#06101c;color:#e8dcc8;font-family:'Lato','Inter',system-ui,sans-serif;}
+    #root{min-height:100vh;}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="react">
+
+
+const { useState, useRef, useEffect } = React;
+// ═══════════════════════════════════════════════════════════════════
+//  DATA — edit this section to update teams, heroes, notes etc.
+// ═══════════════════════════════════════════════════════════════════
+const DATA = {
+  boss: {
+    name:"God of Destruction", nameKR:"파괴신", mode:"Advent Expedition",
+    imageFolder:"Advent_GoD", imageFile:"god-of-destruction",
+    description:"A devastating multi-phase boss requiring precise team coordination and strict stat thresholds. Phase transitions occur at Turn 8 or Turn 12 — faster clears reward higher scores.",
+    element:"Dark", difficulty:"Extreme",
+    skills:[
+      {id:1,icon:"💥",name:"Destruction Strike", type:"Active",          target:"All Enemies",   cooldown:"4 turns", description:"Deals massive physical damage to all enemies and reduces DEF by 30% for 2 turns. Removes barriers before dealing damage."},
+      {id:2,icon:"🌀",name:"Void Rupture",        type:"Active",          target:"Single Target", cooldown:"6 turns", description:"Deals single-target magic damage equal to 800% ATK. Inflicts Silence for 1 turn. Cannot be resisted."},
+      {id:3,icon:"☠️",name:"Annihilation Aura",  type:"Passive",         target:"All Enemies",   cooldown:"Passive", description:"At the start of each turn, reduces all enemy Crit Rate by 15%. Cannot be dispelled."},
+      {id:4,icon:"⚡",name:"Phase Break",         type:"Phase Transition",target:"Self",          cooldown:"Once",    description:"Triggers at 50% HP. Resets all cooldowns, fully heals, and enters Phase 2."},
+      {id:5,icon:"🔱",name:"Dark Cataclysm",      type:"Ultimate",        target:"Single Target", cooldown:"8 turns", description:"Phase 2 only. Deals 1200% ATK dark damage and inflicts DEF Break (50%) for 3 turns. Used when HP drops below 30%."},
+    ],
+  },
+  videoUrl:"https://youtu.be/KNPZ8jciXr0",
+  notes:[
+    "Positioning MATTERS — speed priority goes Front to Back (left to right). Speed order labelled A–E accordingly.",
+    "Gears & Accessories are flexible. Whichever combination hits near 100% Crit Rate is preferred.",
+    "Skill Queues shown here may not match the Video Guide. The Skill Queue is always the more updated guide.",
+    "The Stats Tables are especially important — ATK & Crit DMG show what's needed to clear each phase quickly.",
+    "Shaded stats (BASE + GEARS + T4) sum to what you see on your Hero's Stat screen. ACC, EE, PASSIVE & ALLY stats only apply in battle.",
+  ],
+  phases:[
+    {
+      id:1, label:"Phase 1", subLabel:null,
+      teams:[
+        {
+          label:"Top Scoring", primary:true, formation:"1b4f",
+          extraNotes:"Ensure Daisy (A) always acts first. Stack DEF Down before Xiao Qiao's SE. If unable to clear Phase 1 by Turn 8, swap to the Turn 12 entry strategy for Phase 2.",
+          pets:[
+            {name:"Yeonji",rarity:"SqL",icon:"🌟",passive:"Increases all allies' Crit Rate and ATK at the start of battle."},
+            {name:"Igris", rarity:"L",icon:"⚔️",passive:"Increases all allies' Physical ATK at the start of battle."},
+            {name:"Note",  rarity:"L",icon:"🎵",passive:"Increases all allies' Crit DMG at the start of battle."},
+          ],
+          heroes:[
+            {slot:"C",hero:"Xiao Qiao",rarity:"L",tier:"T6",row:"front",role:"ST DPS",         ee:"DMG AMP",speed:29,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"D",hero:"Melia",    rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   ee:"—",       speed:29,atk:"—",      critDmg:"~200%",  type:"magic",gear:"arcane",accMain:"critRate",accSub:"defIgnore",dedi:"dediMag", critRate:{base:5,t4:"-", gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"A",hero:"Daisy",    rarity:"L++",tier:"T6",row:"back", role:"ST DPS",          ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~270%+", type:"magic",   gear:"rage",  accMain:"weakHit", accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:68,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
+            {slot:"E",hero:"Vanessa",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",    ee:"DMG AMP",speed:29,atk:"~3.7K",  critDmg:"~200%",  type:"magic",    gear:"arcane",accMain:"critRate",accSub:"critDmg",  dedi:"dediMag", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"B",hero:"Lina",     rarity:"L++",tier:"T0",row:"front",role:"+DMG / DEF DOWN (A)",ee:"—",    speed:31,atk:"N/A",   critDmg:"—",       type:"support",  gear:"iron",  accMain:"atkBoost",accSub:"spdBoost", dedi:"dediDef", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+          ],
+          skillQueues:[{label:"Standard",queue:[
+            {turn:0, slot:"C",skill:"SE",note:"Xiao Qiao SE — open with ST DPS immediately."},
+            {turn:4, slot:"D",skill:"A", note:"Melia A — apply Magic Vulnerability."},
+            {turn:8, slot:"A",skill:"SE",note:"Daisy SE — main burst. Vuln active."},
+            {turn:12,slot:"E",skill:"A", note:"Vanessa A — DEF Down."},
+            {turn:16,slot:"B",skill:"SE",note:"Lina SE — amplify incoming damage."},
+            {turn:20,slot:"C",skill:"A", note:"Xiao Qiao A — secondary DPS hit."},
+            {turn:24,slot:"A",skill:"SE",note:"Daisy SE — second burst if boss still alive."},
+          ]}],
+        },
+        {
+          label:"Top Scoring 2", primary:false, formation:"1b4f",
+          extraNotes:"Alternative top scoring composition. Reginleif leads as back row anchor. Pascal provides DEF Down from the back.",
+          pets:[
+            {name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."},
+          ],
+          heroes:[
+            {slot:"A",hero:"Reginleif", rarity:"L++",tier:"T6",row:"front",role:"ST DPS",         ee:"—",       speed:33,atk:"~4.2K+",critDmg:"~240%+",type:"magic",   gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:5,t4:10,  gears:30,acc:10, passive:"-",ally:"-",total:55}},
+            {slot:"B",hero:"Xiao Qiao", rarity:"L++",tier:"T6",row:"front",role:"ST DPS",         ee:"DMG AMP",speed:29,atk:"~5K+",   critDmg:"~230%+",type:"magic",   gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:84,acc:10, passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"E",hero:"Pascal",    rarity:"L++",tier:"T6",row:"back", role:"DEF DOWN (P)",    ee:"DMG AMP",speed:29,atk:"~5K+",   critDmg:"~270%+",type:"magic",   gear:"arcane",accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:18,  gears:91,acc:10, passive:"-",ally:"-",total:100},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"C",hero:"Miho",      rarity:"L++",tier:"SE",row:"front",role:"ST DMG BUFFER",  ee:"DMG AMP",speed:29,atk:"~3.7K",  critDmg:"~200%",  type:"magic",    gear:"arcane",accMain:"critRate",accSub:"critDmg",  dedi:"dediMag", critRate:{base:5,t4:18,  gears:76,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"D",hero:"Melia",     rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   ee:"—",       speed:29,atk:"—",      critDmg:"—",       type:"magic",gear:"arcane",accMain:"critRate",accSub:"defIgnore",dedi:"dediMag", critRate:{base:5,t4:"-", gears:84,acc:"-",passive:"-",ally:"-",total:99 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+          ],
+          skillQueues:[{label:"Standard",queue:[
+            {turn:0, slot:"A",skill:"SE",note:"Reginleif SE — open with burst."},
+            {turn:4, slot:"B",skill:"A", note:"Xiao Qiao A — follow-up DPS."},
+            {turn:8, slot:"E",skill:"SE",note:"Pascal SE — DEF Down + burst."},
+            {turn:12,slot:"D",skill:"A", note:"Melia A — Magic Vulnerability."},
+            {turn:16,slot:"C",skill:"A", note:"Miho A — DMG buffer."},
+            {turn:20,slot:"A",skill:"A", note:"Reginleif A — secondary hit."},
+            {turn:24,slot:"B",skill:"SE",note:"Xiao Qiao SE — second burst."},
+          ]}],
+        },
+      ],
+      altTeams:[
+        {
+          label:"Alt Team 1", note:"Xiao Qiao + Vanessa + Pascal + Chancellor + Miho. Skill queue and team are independent.", formation:"1b4f",
+          pets:[{name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          heroes:[
+            {slot:"A",hero:"Xiao Qiao",rarity:"L",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
+            {slot:"B",hero:"Vanessa",   rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",    type:"magic"    },
+            {slot:"D",hero:"Pascal",    rarity:"L++",tier:"T6",row:"back", role:"DEF DOWN (P)",    type:"magic"   },
+            {slot:"E",hero:"Chancellor",rarity:"L",tier:"SE",row:"front",role:"ST DMG BUFFER",   type:"universal"  },
+            {slot:"C",hero:"Miho",      rarity:"L++",tier:"T0",row:"front",role:"ST DMG BUFFER",   type:"magic"    },
+          ],
+          skillQueues:[{label:"Standard",queue:[
+            {turn:0, slot:"A",skill:"SE",note:"Xiao Qiao SE — open with burst."},
+            {turn:4, slot:"B",skill:"A", note:"Vanessa A — DEF Down."},
+            {turn:8, slot:"D",skill:"SE",note:"Pascal SE — DEF Down + burst."},
+            {turn:12,slot:"E",skill:"A", note:"Chancellor A — DMG buffer."},
+            {turn:16,slot:"C",skill:"A", note:"Miho A — DMG buffer."},
+          ]}],
+        },
+        {
+          label:"Alt Team 2", note:"Reginleif + Xiao Qiao + Pascal + Melia + Miho.", formation:"1b4f",
+          pets:[{name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          heroes:[
+            {slot:"A",hero:"Reginleif", rarity:"L++",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
+            {slot:"B",hero:"Xiao Qiao", rarity:"L++",tier:"T6",row:"front",role:"ST DPS",          type:"magic"   },
+            {slot:"E",hero:"Pascal",    rarity:"L++",tier:"T6",row:"back", role:"DEF DOWN (P)",    type:"magic"   },
+            {slot:"C",hero:"Melia",     rarity:"L++",tier:"T0",row:"front",role:"MAGIC VUL (P)",   type:"magic"},
+            {slot:"D",hero:"Miho",      rarity:"L++",tier:"T0",row:"front",role:"ST DMG BUFFER",   type:"magic"    },
+          ],
+          skillQueues:[{label:"Standard",queue:[
+            {turn:0, slot:"A",skill:"SE",note:"Reginleif SE — open with burst."},
+            {turn:4, slot:"B",skill:"A", note:"Xiao Qiao A — follow-up."},
+            {turn:8, slot:"E",skill:"SE",note:"Pascal SE — DEF Down."},
+            {turn:12,slot:"C",skill:"A", note:"Melia A — Magic Vulnerability."},
+            {turn:16,slot:"D",skill:"A", note:"Miho A — DMG buffer."},
+          ]}],
+        },
+        {
+          label:"Alt Team 3", note:"Vanessa + Xiao Qiao + Orly + Daisy + Melia. Skill queue and team are independent.", formation:"1b4f",
+          pets:[{name:"Jeo",rarity:"SqL",icon:"🐾",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          heroes:[
+            {slot:"A",hero:"Vanessa",   rarity:"L++",tier:"T0", row:"front",role:"DEF DOWN (P)",    type:"magic"    },
+            {slot:"B",hero:"Xiao Qiao", rarity:"L++",tier:"T6", row:"back", role:"ST DPS",          type:"magic"    },
+            {slot:"E",hero:"Orly",      rarity:"L++",tier:"SE",  row:"front",role:"ST DMG BUFFER",  type:"support"  },
+            {slot:"C",hero:"Daisy",     rarity:"L++",tier:"T6",  row:"front",role:"ST DPS",         type:"magic"    },
+            {slot:"D",hero:"Melia",     rarity:"L++",tier:"T0",  row:"front",role:"MAGIC VUL (P)",  type:"magic"    },
+          ],
+          skillQueues:[{label:"Standard",queue:[
+            {turn:0, slot:"B",skill:"SE",note:"Xiao Qiao SE — open with burst."},
+            {turn:4, slot:"A",skill:"A", note:"Vanessa A — DEF Down."},
+            {turn:8, slot:"C",skill:"SE",note:"Daisy SE — main DPS burst."},
+            {turn:12,slot:"D",skill:"A", note:"Melia A — Magic Vulnerability."},
+            {turn:16,slot:"E",skill:"A", note:"Orly A — DMG buffer."},
+          ]}],
+        },
+      ],
+    },
+    {
+      id:2, label:"Phase 2", subLabel:"Enter at Turn 8 or 12",
+      teams:[
+        {
+          label:"Top Scoring (8 Turn Build)", primary:true, formation:"1b4f",
+          extraNotes:"Bai Long (A) is in the back row. Fai (B), Xiao (C), Lu Bu (D) and Biscuit (E) are in the front. Enter at Turn 8 for Turn 8 Entry queue, or Turn 12 for the Turn 12 Entry queue.",
+          pets:[
+            {name:"Windy", rarity:"L",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."},
+            {name:"Eirin", rarity:"L",icon:"🐱", passive:"Increases all allies' Crit Rate by 5% and ATK by 3% at the start of battle."},
+            {name:"Sherry",rarity:"SqR",icon:"✨", passive:"Increases all allies' Crit DMG at the start of battle."},
+          ],
+          heroes:[
+            {slot:"B",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"PHYS VUL (P) / ST DPS",         ee:"DMG AMP",speed:29,atk:"~4K+",   critDmg:"~250%+",type:"attack",  gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"C",hero:"Xiao",     rarity:"L++",tier:"T6",row:"front",role:"ST DMG BUFFER / DEF DOWN (A) / BARRIER",ee:"—",speed:29,atk:"—",    critDmg:"—",      type:"attack",  gear:"valor", accMain:"weakHit", accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:14,  gears:72,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:"-",gears:30,acc:10, passive:"-",ally:"-",total:45}},
+            {slot:"A",hero:"Bai Long", rarity:"L++",tier:"T6",row:"back", role:"ST DPS",                         ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~300%+",type:"magic",   gear:"arcane",accMain:"critRate",accSub:"defIgnore",dedi:"dediMag", critRate:{base:5,t4:18,  gears:40,acc:"-",passive:33, ally:"-",total:96 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"D",hero:"Lu Bu",    rarity:"L++",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", ee:"DMG AMP",speed:29,atk:"~3.6K",  critDmg:"~200%",  type:"attack",  gear:"rage",  accMain:"atkDmg1T",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",ally:"-",passive:"-",total:"-"}},
+            {slot:"E",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   ee:"—",       speed:19,atk:"N/A",   critDmg:"—",       type:"universal",gear:"swift", accMain:"critRate",accSub:"spdBoost", dedi:"dediSpd", critRate:{base:5,t4:"-", gears:"-", acc:"-",passive:"-",ally:"-",total:"N/A"},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+          ],
+          skillQueues:[
+            {label:"Turn 8 Entry",queue:[
+              {turn:8, slot:"B",skill:"SE",note:"Fai SE — immediate burst on entry."},
+              {turn:12,slot:"C",skill:"A", note:"Xiao A — apply barrier and buff team."},
+              {turn:16,slot:"A",skill:"SE",note:"Bai Long SE — main magic burst."},
+              {turn:20,slot:"D",skill:"A", note:"Lu Bu A — PATK + Ignore DEF buff."},
+              {turn:24,slot:"B",skill:"A", note:"Fai A — follow-up."},
+              {turn:28,slot:"C",skill:"SE",note:"Xiao SE — second barrier + ST buff."},
+              {turn:32,slot:"A",skill:"A", note:"Bai Long A — refresh."},
+              {turn:36,slot:"D",skill:"SE",note:"Lu Bu SE — burst window."},
+              {turn:40,slot:"B",skill:"A", note:"Fai A."},
+              {turn:48,slot:"A",skill:"SE",note:"Bai Long SE — third burst."},
+              {turn:56,slot:"B",skill:"SE",note:"Fai SE."},
+              {turn:64,slot:"A",skill:"A", note:"Bai Long A."},
+              {turn:68,slot:"D",skill:"A", note:"Lu Bu A."},
+            ]},
+            {label:"Turn 12 Entry",queue:[
+              {turn:12,slot:"C",skill:"SE",note:"Xiao SE — barrier first on late entry."},
+              {turn:16,slot:"A",skill:"SE",note:"Bai Long SE — main burst."},
+              {turn:20,slot:"B",skill:"A", note:"Fai A — follow-up."},
+              {turn:24,slot:"D",skill:"A", note:"Lu Bu A — PATK buff."},
+              {turn:28,slot:"E",skill:"A", note:"Biscuit A — DEF Down refresh."},
+              {turn:32,slot:"C",skill:"A", note:"Xiao A — re-barrier."},
+              {turn:36,slot:"A",skill:"SE",note:"Bai Long SE — second burst."},
+              {turn:40,slot:"D",skill:"SE",note:"Lu Bu SE — burst."},
+              {turn:44,slot:"B",skill:"SE",note:"Fai SE."},
+              {turn:52,slot:"C",skill:"SE",note:"Xiao SE."},
+              {turn:56,slot:"A",skill:"A", note:"Bai Long A."},
+              {turn:60,slot:"D",skill:"A", note:"Lu Bu A."},
+              {turn:68,slot:"A",skill:"SE",note:"Bai Long SE — final burst."},
+            ]},
+          ],
+        },
+        {
+          label:"Top Scoring 2 (Same Build)", primary:false, formation:"1b4f",
+          extraNotes:"Same hero composition as Top Scoring 1 but with different speed tuning for the 4 Turn Build. D=29, E=25, C=33, B=35, A=37.",
+          pets:[
+            {name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."},
+          ],
+          heroes:[
+            {slot:"D",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"PHYS VUL (P) / ST DPS",         ee:"DMG AMP",speed:29,atk:"~4K+",   critDmg:"~250%+",type:"attack",  gear:"rage",  accMain:"critRate",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"E",hero:"Xiao",     rarity:"L++",tier:"T6",row:"front",role:"ST DMG BUFFER / DEF DOWN (A) / BARRIER",ee:"—",speed:25,atk:"—",    critDmg:"—",      type:"attack",  gear:"valor", accMain:"weakHit", accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:14,  gears:72,acc:10, passive:"-",ally:"-",total:101},weakHit:{base:5,t4:"-",gears:30,acc:10, passive:"-",ally:"-",total:45}},
+            {slot:"C",hero:"Bai Long", rarity:"L++",tier:"T6",row:"back", role:"ST DPS",                         ee:"DMG AMP",speed:33,atk:"~4.5K+",critDmg:"~300%+",type:"magic",   gear:"arcane",accMain:"critRate",accSub:"defIgnore",dedi:"dediMag", critRate:{base:5,t4:18,  gears:40,acc:"-",passive:33, ally:"-",total:96 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"B",hero:"Lu Bu",    rarity:"L++",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", ee:"DMG AMP",speed:35,atk:"~3.6K",  critDmg:"~200%",  type:"attack",  gear:"rage",  accMain:"atkDmg1T",accSub:"critDmg",  dedi:"dediAtk",critRate:{base:5,t4:"-", gears:92,acc:"-",passive:"-",ally:"-",total:97 },weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+            {slot:"A",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   ee:"—",       speed:37,atk:"N/A",   critDmg:"—",       type:"universal",gear:"swift", accMain:"critRate",accSub:"spdBoost", dedi:"dediSpd", critRate:{base:5,t4:"-", gears:"-", acc:"-",passive:"-",ally:"-",total:"N/A"},weakHit:{base:"-",t4:"-",gears:"-",acc:"-",passive:"-",ally:"-",total:"-"}},
+          ],
+          skillQueues:[
+            {label:"Turn 4 Build",queue:[
+              {turn:4, slot:"D",skill:"SE",note:"Fai SE — open with burst."},
+              {turn:8, slot:"E",skill:"SE",note:"Xiao SE — barrier + ST buff."},
+              {turn:12,slot:"C",skill:"SE",note:"Bai Long SE — main magic burst."},
+              {turn:16,slot:"B",skill:"A", note:"Lu Bu A — PATK buff."},
+              {turn:20,slot:"D",skill:"A", note:"Fai A — follow-up."},
+              {turn:24,slot:"E",skill:"A", note:"Xiao A — re-barrier."},
+              {turn:28,slot:"C",skill:"A", note:"Bai Long A — refresh."},
+              {turn:32,slot:"B",skill:"SE",note:"Lu Bu SE — burst."},
+              {turn:36,slot:"D",skill:"SE",note:"Fai SE."},
+              {turn:40,slot:"C",skill:"SE",note:"Bai Long SE."},
+              {turn:44,slot:"E",skill:"SE",note:"Xiao SE."},
+              {turn:48,slot:"B",skill:"A", note:"Lu Bu A."},
+              {turn:52,slot:"D",skill:"A", note:"Fai A."},
+              {turn:56,slot:"C",skill:"A", note:"Bai Long A."},
+              {turn:60,slot:"B",skill:"SE",note:"Lu Bu SE."},
+              {turn:64,slot:"D",skill:"SE",note:"Fai SE."},
+              {turn:68,slot:"C",skill:"SE",note:"Bai Long SE — final burst."},
+            ]},
+            {label:"Turn 8 Build",queue:[
+              {turn:8, slot:"D",skill:"SE",note:"Fai SE — burst on entry."},
+              {turn:12,slot:"E",skill:"SE",note:"Xiao SE — barrier + ST buff."},
+              {turn:16,slot:"C",skill:"SE",note:"Bai Long SE — main magic burst."},
+              {turn:20,slot:"B",skill:"A", note:"Lu Bu A — PATK buff."},
+              {turn:24,slot:"D",skill:"A", note:"Fai A — follow-up."},
+              {turn:28,slot:"E",skill:"A", note:"Xiao A — re-barrier."},
+              {turn:32,slot:"C",skill:"A", note:"Bai Long A — refresh."},
+              {turn:36,slot:"B",skill:"SE",note:"Lu Bu SE — burst."},
+              {turn:40,slot:"D",skill:"SE",note:"Fai SE."},
+              {turn:44,slot:"C",skill:"SE",note:"Bai Long SE."},
+              {turn:48,slot:"E",skill:"SE",note:"Xiao SE."},
+              {turn:52,slot:"B",skill:"A", note:"Lu Bu A."},
+              {turn:56,slot:"D",skill:"A", note:"Fai A."},
+              {turn:60,slot:"C",skill:"A", note:"Bai Long A."},
+              {turn:64,slot:"B",skill:"SE",note:"Lu Bu SE."},
+              {turn:68,slot:"D",skill:"SE",note:"Fai SE."},
+            ]},
+          ],
+        },
+      ],
+      altTeams:[
+        {
+          label:"Alt Team 1 (Phase 2)", note:"Rachel + Biscuit + Bai Long + Lina + Lu Bu.", formation:"1b4f",
+          pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          heroes:[
+            {slot:"B",hero:"Rachel",   rarity:"L++",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",         type:"universal"},
+            {slot:"A",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"universal"},
+            {slot:"D",hero:"Bai Long", rarity:"L++",tier:"T6",row:"back", role:"ST DPS",                         type:"magic"    },
+            {slot:"E",hero:"Lina",     rarity:"L++",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
+            {slot:"C",hero:"Lu Bu",    rarity:"L++",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", type:"attack"   },
+          ],
+          skillQueues:[{label:"8 Turn Build",queue:[
+            {turn:8, slot:"B",skill:"SE",note:"Rachel SE — burst on entry."},
+            {turn:12,slot:"D",skill:"SE",note:"Bai Long SE — main burst."},
+            {turn:16,slot:"C",skill:"A", note:"Lu Bu A — PATK buff."},
+            {turn:20,slot:"E",skill:"A", note:"Lina A — DMG amp."},
+            {turn:24,slot:"A",skill:"A", note:"Biscuit A — DEF Down."},
+            {turn:28,slot:"B",skill:"A", note:"Rachel A — follow-up."},
+            {turn:32,slot:"D",skill:"A", note:"Bai Long A — refresh."},
+          ]}],
+        },
+        {
+          label:"Alt Team 2 (Phase 2)", note:"Rachel + Biscuit + Bai Long + Lina + Fai. Fai replaces Lu Bu.", formation:"1b4f",
+          pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          heroes:[
+            {slot:"B",hero:"Rachel",   rarity:"L++",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",         type:"universal"},
+            {slot:"A",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"universal"},
+            {slot:"D",hero:"Bai Long", rarity:"L++",tier:"T6",row:"back", role:"ST DPS",                         type:"magic"    },
+            {slot:"E",hero:"Lina",     rarity:"L++",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
+            {slot:"C",hero:"Fai",      rarity:"L++",tier:"T0",row:"front",role:"ST DMG BUFFER / BARRIER",        type:"attack"   },
+          ],
+          skillQueues:[{label:"8 Turn Build",queue:[
+            {turn:8, slot:"B",skill:"SE",note:"Rachel SE — burst on entry."},
+            {turn:12,slot:"C",skill:"A", note:"Fai A — barrier + buff."},
+            {turn:16,slot:"D",skill:"SE",note:"Bai Long SE — main burst."},
+            {turn:20,slot:"E",skill:"A", note:"Lina A — DMG amp."},
+            {turn:24,slot:"A",skill:"A", note:"Biscuit A — DEF Down."},
+            {turn:28,slot:"B",skill:"A", note:"Rachel A — follow-up."},
+            {turn:32,slot:"D",skill:"A", note:"Bai Long A — refresh."},
+          ]}],
+        },
+        {
+          label:"Alt Team 3 (Phase 2)", note:"Lu Bu + Rachel + Shane + Lina + Biscuit. Shane leads from back row.", formation:"1b4f",
+          pets:[{name:"Windy",rarity:"SqL",icon:"🌬️",passive:"Increases all allies' ATK and Crit Rate at battle start."}],
+          heroes:[
+            {slot:"B",hero:"Lu Bu",    rarity:"L++",tier:"T4",row:"front",role:"+PATK / +IGNORE DEF EFFICIENCY", type:"attack"   },
+            {slot:"A",hero:"Rachel",   rarity:"L++",tier:"T6",row:"front",role:"PHYS VUL (P) / ST DPS",          type:"universal"},
+            {slot:"C",hero:"Shane",    rarity:"L++",tier:"T6",row:"back", role:"ST DPS / BARRIER",               type:"attack"   },
+            {slot:"E",hero:"Lina",     rarity:"L++",tier:"T6",row:"front",role:"+DMG / DEF DOWN (A)",            type:"support"  },
+            {slot:"D",hero:"Biscuit",  rarity:"L++",tier:"T6",row:"front",role:"DEF DOWN (P)",                   type:"universal"},
+          ],
+          skillQueues:[{label:"8 Turn Build",queue:[
+            {turn:8, slot:"C",skill:"SE",note:"Shane SE — burst on entry + barrier."},
+            {turn:12,slot:"A",skill:"SE",note:"Rachel SE — physical vulnerability."},
+            {turn:16,slot:"B",skill:"A", note:"Lu Bu A — PATK buff."},
+            {turn:20,slot:"E",skill:"A", note:"Lina A — DMG amp."},
+            {turn:24,slot:"D",skill:"A", note:"Biscuit A — DEF Down."},
+            {turn:28,slot:"C",skill:"A", note:"Shane A — follow-up."},
+            {turn:32,slot:"A",skill:"A", note:"Rachel A — secondary hit."},
+          ]}],
+        },
+      ],
+    },
+  ],
+};
+// ═══════════════════════════════════════════════════════════════════
+//  END OF DATA
+// ═══════════════════════════════════════════════════════════════════
+
+// ─── FONT ────────────────────────────────────────────────────────
+const FONT_LINK = document.createElement("link");
+FONT_LINK.rel  = "stylesheet";
+FONT_LINK.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap";
+document.head.appendChild(FONT_LINK);
+
+// ── IMAGE BASE URL — change this if you move to a custom domain ──
+const IMG = "https://dreamerplays.github.io/7krb-site";
+// Encode + signs in folder names for URL safety
+const img = (path) => `${IMG}/${path.replace(/\+/g, '%2B')}`;
+
+// ─── PALETTE — Seven Knights Re:BIRTH visual identity ────────────
+const C = {
+  // Backgrounds — deep teal-navy, never pure black
+  bg:       "#06101c",
+  surface:  "#0d1a2a",
+  card:     "#111f30",
+  border:   "#1a2e42",
+  // Accent — warm amber gold (molten, not yellow)
+  gold:     "#e8962a",
+  goldDim:  "#7a4e10",
+  goldGlow: "#e8962a44",
+  // UI colours
+  blue:     "#3b82f6",
+  red:      "#ef4444",
+  green:    "#22c55e",
+  purple:   "#a855f7",
+  pink:     "#ec4899",
+  // Type colours
+  attack:   "#ef4444",    // red
+  magic:    "#3b82f6",    // blue
+  universal:"#a855f7",   // purple
+  defense:  "#f97316",   // orange
+  support:  "#eab308",   // yellow
+  // Text
+  text:     "#e8dcc8",   // warm off-white, not cold grey
+  textDim:  "#4a6080",
+  textMid:  "#8aa0bc",
+};
+const typeColor = t=>({
+  attack:C.attack, magic:C.magic, universal:C.universal,
+  defense:C.defense, support:C.support,
+}[t]??C.textDim);
+// Slot badge colours — monochromatic grayscale, A lightest → E darkest
+const slotColor = s=>({A:"#e8e8e8",B:"#c0c0c0",C:"#989898",D:"#707070",E:"#484848"}[s]??"#888");
+// ── Seven Knights asymmetric corners: top-right + bottom-left rounded ──
+const R  = "14px 0 14px 0"; // standard cards & panels
+const RS = "8px 0 8px 0";   // small buttons & badges
+const RL = "20px 0 20px 0"; // large panels (boss panel, page header)
+const STAT_ROWS=[
+  {key:"base",label:"BASE"},{key:"t4",label:"T4"},{key:"gears",label:"GEARS"},
+  {key:"acc",label:"ACC"},{key:"passive",label:"PASSIVE"},{key:"ally",label:"ALLY"},
+];
+
+// ─── LOOKUP TABLES ───────────────────────────────────────────────
+const GEAR_SETS={
+  rage:  {name:"Rage Set",     icon:"⚔️",color:C.attack,  effect:"Increases ATK by 15%. When HP is above 70%, increases Crit Rate by 15%."},
+  iron:  {name:"Iron Wall Set",icon:"🛡️",color:C.defense, effect:"Increases DEF by 20%. Reduces damage taken from AoE attacks by 10%."},
+  arcane:{name:"Arcane Set",   icon:"🔮",color:C.magic,   effect:"Increases Magic ATK by 15%. Magic skills deal 10% additional damage."},
+  swift: {name:"Swift Set",    icon:"💨",color:C.green,   effect:"Increases SPD by 20. First action each battle starts with bonus 20% Crit Rate."},
+  valor: {name:"Valor Set",    icon:"🌟",color:C.gold,    effect:"Increases all stats by 8%. Activating EE recovers 5% HP."},
+};
+const ACC_MAIN={
+  critRate: {name:"Crit Rate",        icon:"🎯",effect:"Adds +10% Crit Rate in battle (not reflected on stat screen)."},
+  weakHit:  {name:"Weak Hit Chance",  icon:"🔍",effect:"Adds +10% Weakness Hit Chance in battle."},
+  atkBoost: {name:"ATK Boost",        icon:"💪",effect:"Adds +8% ATK in battle."},
+  atkDmg1T: {name:"1-Target ATK DMG", icon:"⚡",effect:"Adds +15% damage to single-target ATK skills."},
+};
+const ACC_SUB={
+  critDmg:  {name:"Crit DMG",  icon:"💥",effect:"Adds +20% Crit DMG in battle."},
+  defIgnore:{name:"DEF Ignore",icon:"🗡️",effect:"Ignores 10% of enemy DEF when dealing damage."},
+  spdBoost: {name:"SPD Boost", icon:"⚡",effect:"Adds +15 SPD in battle."},
+};
+const DEDI_EQ={
+  dediAtk:{name:"Destroyer Blade",icon:"🔱",color:C.attack, effect:"Dedicated Equipment — Increases ST DMG by 12% and grants +5% Crit Rate per stack of DEF Down on target."},
+  dediMag:{name:"Arcane Tome",    icon:"📖",color:C.magic,  effect:"Dedicated Equipment — Increases Magic Skill DMG by 15%. When an enemy has Vulnerability, deal 8% additional damage."},
+  dediDef:{name:"Guardian Plate", icon:"🏰",color:C.defense,effect:"Dedicated Equipment — Increases Barrier strength by 20% and reduces DEF Break duration by 1 turn."},
+  dediSpd:{name:"Wind Boots",     icon:"🌪️",color:C.green,  effect:"Dedicated Equipment — Increases SPD by 10 and allows one additional action if SPD exceeds enemy's by 20+."},
+};
+
+function hydrateHero(h){
+  return{...h,
+    gear:   h.gear    ? GEAR_SETS[h.gear]   : null,
+    accMain:h.accMain ? ACC_MAIN[h.accMain] : null,
+    accSub: h.accSub  ? ACC_SUB[h.accSub]   : null,
+    dedi:   h.dedi    ? DEDI_EQ[h.dedi]     : null,
+  };
+}
+function hydrateTeam(t){return{...t,heroes:t.heroes.map(hydrateHero)};}
+function hydratePhase(p){return{...p,teams:p.teams.map(hydrateTeam),altTeams:p.altTeams.map(hydrateTeam)};}
+const PHASES = DATA.phases.map(hydratePhase);
+const BOSS   = DATA.boss;
+
+// ─── FORMATION ───────────────────────────────────────────────────
+const FORMATION_COLS={
+  "1b4f":{back:[2],      front:[0,1,3,4]},
+  "2b3f":{back:[1,3],    front:[0,2,4]  },
+  "3b2f":{back:[0,2,4],  front:[1,3]    },
+  "4b1f":{back:[0,1,3,4],front:[2]      },
+};
+function buildGrid(heroes,formation){
+  const cols=FORMATION_COLS[formation]||FORMATION_COLS["1b4f"];
+  const grid=Array(5).fill(null).map(()=>({back:null,front:null}));
+  const back=heroes.filter(h=>h.row==="back");
+  const front=heroes.filter(h=>h.row==="front");
+  cols.back.forEach((c,i)=>{if(back[i])grid[c].back=back[i];});
+  cols.front.forEach((c,i)=>{if(front[i])grid[c].front=front[i];});
+  return grid;
+}
+function gridHeroOrder(grid){
+  const seen=new Set(),order=[];
+  grid.forEach(col=>{
+    if(col.back  &&!seen.has(col.back.slot)) {seen.add(col.back.slot); order.push(col.back.slot);}
+    if(col.front &&!seen.has(col.front.slot)){seen.add(col.front.slot);order.push(col.front.slot);}
+  });
+  return order;
+}
+
+// ─── POPUP HOOK ─────────────────────────────────────────────────
+function usePopup(){
+  const[open,setOpen]=useState(false);
+  const ref=useRef();
+  useEffect(()=>{
+    if(!open)return;
+    const h=e=>{if(ref.current&&!ref.current.contains(e.target))setOpen(false);};
+    document.addEventListener("mousedown",h);
+    return()=>document.removeEventListener("mousedown",h);
+  },[open]);
+  return{open,setOpen,ref};
+}
+
+// ─── GENERIC POPUP (opens downward) ─────────────────────────────
+function DownPopup({refProp,color,children}){
+  return(
+    <div ref={refProp} style={{
+      position:"absolute",top:"calc(100% + 8px)",left:"50%",
+      transform:"translateX(-50%)",width:230,
+      background:C.surface,border:`1px solid ${color}55`,
+      borderRadius:R,padding:12,zIndex:500,
+      boxShadow:"0 8px 32px #000000cc",
+    }}>
+      {/* caret pointing up */}
+      <div style={{position:"absolute",top:-5,left:"50%",
+        transform:"translateX(-50%) rotate(45deg)",width:8,height:8,
+        background:C.surface,border:`1px solid ${color}44`,
+        borderBottom:"none",borderRight:"none"}}/>
+      {children}
+    </div>
+  );
+}
+
+// ─── ICON BUTTON (gear/acc/dedi) — opens downward ───────────────
+function IconBtn({emoji,color,label,popupContent}){
+  const{open,setOpen,ref}=usePopup();
+  return(
+    <div style={{position:"relative",display:"inline-block"}}>
+      <button onClick={e=>{e.stopPropagation();setOpen(v=>!v);}} title={label} style={{
+        width:"clamp(32px,4vw,52px)",height:"clamp(32px,4vw,52px)",borderRadius:0,cursor:"pointer",fontSize:"clamp(16px,2vw,24px)",
+        border:`1px solid ${open?color:color+"55"}`,
+        background:open?color+"33":color+"11",
+        display:"flex",alignItems:"center",justifyContent:"center",
+        transition:"all 0.15s",transform:open?"scale(1.18)":"scale(1)",
+      }}>
+        {emoji && (emoji.startsWith("/") || emoji.startsWith("http") || emoji.endsWith(".png") || emoji.endsWith(".jpg"))
+          ? <img src={emoji.startsWith("/")||emoji.startsWith("http") ? emoji : img(emoji)}
+              alt="" style={{width:"70%",height:"70%",objectFit:"contain"}}
+              onError={e=>e.target.style.display="none"}/>
+          : emoji
+        }
+      </button>
+      {open&&(
+        <DownPopup refProp={ref} color={color}>
+          <div style={{fontSize:11,fontWeight:800,color:C.text,marginBottom:5}}>{label}</div>
+          <div style={{fontSize:11,color:C.textMid,lineHeight:1.65}}>{popupContent}</div>
+        </DownPopup>
+      )}
+    </div>
+  );
+}
+
+// ─── HERO CARD ──────────────────────────────────────────────────
+function HeroCard({hero}){
+  const[menuOpen,setMenuOpen]=useState(false);
+  const[statsOpen,setStatsOpen]=useState(false);
+  const menuRef=useRef();
+  useEffect(()=>{
+    if(!menuOpen)return;
+    const h=e=>{if(menuRef.current&&!menuRef.current.contains(e.target))setMenuOpen(false);};
+    document.addEventListener("mousedown",h);
+    return()=>document.removeEventListener("mousedown",h);
+  },[menuOpen]);
+  const tc=typeColor(hero.type),sc=slotColor(hero.slot);
+  return(
+    <div style={{width:"100%",position:"relative"}}>
+      {menuOpen&&(
+        <div ref={menuRef} style={{
+          position:"absolute",top:"35%",left:"50%",transform:"translate(-50%,-50%)",
+          background:C.surface,border:`1px solid ${C.gold}66`,
+          borderRadius:R,overflow:"hidden",zIndex:500,
+          boxShadow:"0 8px 32px #000000cc",minWidth:165,
+        }}>
+          {[{label:"👤 View Hero Page",href:"#"},{label:"⚙️ View Hero Build",href:"#"}].map(item=>(
+            <a key={item.label} href={item.href}
+              onClick={e=>{e.preventDefault();setMenuOpen(false);}}
+              style={{display:"block",padding:"10px 16px",fontSize:12,fontWeight:600,
+                color:C.text,textDecoration:"none",borderBottom:`1px solid ${C.border}`}}
+              onMouseEnter={e=>e.currentTarget.style.background=C.gold+"18"}
+              onMouseLeave={e=>e.currentTarget.style.background="transparent"}
+            >{item.label}</a>
+          ))}
+          <button onClick={()=>setMenuOpen(false)} style={{
+            display:"block",width:"100%",padding:"8px 16px",fontSize:11,
+            color:C.textDim,background:"none",border:"none",cursor:"pointer",textAlign:"left",
+          }}>✕ Close</button>
+        </div>
+      )}
+      <div style={{
+        width:"100%",
+        background:C.card,
+        border:`1px solid ${tc}44`,
+        borderTop:`3px solid ${tc}`,borderRadius:R,
+        padding:"clamp(4px,0.8vw,10px) clamp(4px,0.6vw,8px)",
+        display:"flex",flexDirection:"column",alignItems:"center",gap:5,
+        boxShadow:`inset 0 0 20px ${tc}0d, 0 2px 8px #00000044`,
+        overflow:"hidden",
+      }}>
+        <div style={{alignSelf:"flex-end",background:sc+"33",border:`1px solid ${sc}`,
+          borderRadius:"50%",width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:800,color:sc,flexShrink:0}}>{hero.slot}</div>
+        {/* Portrait — click opens hero menu */}
+        <div onClick={()=>setMenuOpen(v=>!v)} style={{
+          width:"100%",aspectRatio:"162/202",height:"auto",borderRadius:0,cursor:"pointer",
+          background:`linear-gradient(135deg,${tc}40,${tc}0d)`,
+          border:`2px solid ${tc}66`,
+          display:"flex",alignItems:"center",justifyContent:"center",
+          fontSize:9,fontWeight:700,color:tc,textAlign:"center",lineHeight:1.3,padding:4,
+          transition:"border-color 0.15s",
+        }}
+        onMouseEnter={e=>e.currentTarget.style.borderColor=tc}
+        onMouseLeave={e=>e.currentTarget.style.borderColor=tc+"66"}
+        title="Click for hero options">
+          <img
+            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero}.png`)}
+            alt={hero.hero}
+            style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",borderRadius:0}}
+            onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="flex";}}
+          />
+          <span style={{display:"none",width:"100%",height:"100%",alignItems:"center",
+            justifyContent:"center",fontSize:9,fontWeight:700,color:tc,textAlign:"center",
+            lineHeight:1.3,padding:4}}>{hero.hero.toUpperCase()}</span>
+        </div>
+        <div style={{fontSize:12,fontWeight:800,color:C.text,textAlign:"center"}}>{hero.hero}</div>
+        {/* 3 icon slots */}
+        {(hero.gear||hero.accMain||hero.dedi)&&(
+          <div style={{display:"flex",gap:"clamp(2px,0.4vw,6px)",alignItems:"center",justifyContent:"center"}}>
+            {hero.gear&&<IconBtn emoji={hero.gear.icon}    color={hero.gear.color}  label={hero.gear.name}    popupContent={hero.gear.effect}/>}
+            {(hero.accMain||hero.accSub)&&(
+              <div style={{display:"flex",flexDirection:"column",gap:4}}>
+                {hero.accMain&&<IconBtn emoji={hero.accMain.icon} color={C.blue}   label={hero.accMain.name} popupContent={hero.accMain.effect}/>}
+                {hero.accSub &&<IconBtn emoji={hero.accSub.icon}  color={C.purple} label={hero.accSub.name}  popupContent={hero.accSub.effect}/>}
+              </div>
+            )}
+            {hero.dedi&&<IconBtn emoji={hero.dedi.icon} color={hero.dedi.color} label={hero.dedi.name} popupContent={hero.dedi.effect}/>}
+          </div>
+        )}
+        <div style={{fontSize:8,color:C.textMid,textAlign:"center",
+          background:C.border,borderRadius:RS,padding:"3px 5px",lineHeight:1.4,width:"100%"}}>{hero.role}</div>
+        {/* Stats toggle */}
+        <button onClick={e=>{e.stopPropagation();setStatsOpen(v=>!v);}} style={{
+          display:"flex",alignItems:"center",justifyContent:"center",gap:3,
+          background:"none",border:`1px solid ${C.border}`,borderRadius:RS,
+          padding:"2px 7px",cursor:"pointer",fontSize:9,color:C.textDim,width:"100%",
+        }}>{statsOpen?"▲":"▼"} Stats</button>
+        {statsOpen&&(
+          <div style={{width:"100%",background:C.surface,borderRadius:RS,
+            padding:"6px 7px",border:`1px solid ${C.border}`,
+            display:"flex",flexDirection:"column",gap:3}}>
+            {[
+              {label:"SPD", value:hero.speed!=null?String(hero.speed):"—"},
+              {label:"ATK", value:hero.atk??"—"},
+              {label:"CDMG",value:hero.critDmg??"—"},
+              {label:"EE",  value:hero.ee??"—"},
+            ].map(({label,value})=>(
+              <div key={label} style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                <span style={{fontSize:9,color:C.textDim,fontWeight:600}}>{label}</span>
+                <span style={{fontSize:9,color:value==="—"||value==="N/A"?C.textDim:C.textMid,fontWeight:600}}>{value}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── COMPACT HERO CARD (alt teams) — 81×101 portrait with click menu ───
+function CompactHeroCard({hero}){
+  const[menuOpen,setMenuOpen]=useState(false);
+  const[statsOpen,setStatsOpen]=useState(false);
+  const menuRef=useRef();
+  useEffect(()=>{
+    if(!menuOpen)return;
+    const h=e=>{if(menuRef.current&&!menuRef.current.contains(e.target))setMenuOpen(false);};
+    document.addEventListener("mousedown",h);
+    return()=>document.removeEventListener("mousedown",h);
+  },[menuOpen]);
+  const tc=typeColor(hero.type),sc=slotColor(hero.slot);
+  return(
+    <div style={{width:"100%",position:"relative"}}>
+      {menuOpen&&(
+        <div ref={menuRef} style={{
+          position:"absolute",top:"35%",left:"50%",transform:"translate(-50%,-50%)",
+          background:C.surface,border:`1px solid ${C.gold}66`,
+          borderRadius:R,overflow:"hidden",zIndex:500,
+          boxShadow:"0 8px 32px #000000cc",minWidth:165,
+        }}>
+          {[{label:"👤 View Hero Page",href:"#"},{label:"⚙️ View Hero Build",href:"#"}].map(item=>(
+            <a key={item.label} href={item.href}
+              onClick={e=>{e.preventDefault();setMenuOpen(false);}}
+              style={{display:"block",padding:"10px 16px",fontSize:12,fontWeight:600,
+                color:C.text,textDecoration:"none",borderBottom:`1px solid ${C.border}`}}
+              onMouseEnter={e=>e.currentTarget.style.background=C.gold+"18"}
+              onMouseLeave={e=>e.currentTarget.style.background="transparent"}
+            >{item.label}</a>
+          ))}
+          <button onClick={()=>setMenuOpen(false)} style={{
+            display:"block",width:"100%",padding:"8px 16px",fontSize:11,
+            color:C.textDim,background:"none",border:"none",cursor:"pointer",textAlign:"left",
+          }}>✕ Close</button>
+        </div>
+      )}
+      <div style={{width:"100%",background:C.card,border:`1px solid ${tc}33`,
+        borderTop:`2px solid ${tc}`,borderRadius:R,
+        padding:"7px 6px",display:"flex",flexDirection:"column",alignItems:"center",gap:4,
+        boxShadow:`inset 0 0 14px ${tc}0a, 0 2px 6px #00000033`}}>
+        <div style={{alignSelf:"flex-end",background:sc+"33",border:`1px solid ${sc}`,
+          borderRadius:"50%",width:18,height:18,display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:800,color:sc,flexShrink:0}}>{hero.slot}</div>
+        <div onClick={()=>setMenuOpen(v=>!v)} style={{
+          width:81,height:101,borderRadius:0,cursor:"pointer",
+          background:`linear-gradient(135deg,${tc}33,${tc}0d)`,border:`2px solid ${tc}55`,
+          display:"flex",alignItems:"center",justifyContent:"center",
+          fontSize:7,fontWeight:700,color:tc,textAlign:"center",lineHeight:1.3,padding:3,
+          transition:"border-color 0.15s",
+        }}
+        onMouseEnter={e=>e.currentTarget.style.borderColor=tc}
+        onMouseLeave={e=>e.currentTarget.style.borderColor=tc+"55"}
+        title="Click for hero options">
+          <img
+            src={img(`images/heroes/${hero.rarity}/${hero.tier}/${hero.hero}.png`)}
+            alt={hero.hero}
+            style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",borderRadius:0}}
+            onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="flex";}}
+          />
+          <span style={{display:"none",width:"100%",height:"100%",alignItems:"center",
+            justifyContent:"center",fontSize:7,fontWeight:700,color:tc,textAlign:"center"}}>{hero.hero.toUpperCase()}</span>
+        </div>
+        <div style={{fontSize:10,fontWeight:700,color:C.text,textAlign:"center"}}>{hero.hero}</div>
+
+        <div style={{fontSize:7,color:C.textMid,textAlign:"center",
+          background:C.border,borderRadius:RS,padding:"2px 4px",lineHeight:1.4,width:"100%"}}>{hero.role}</div>
+        {/* Stats toggle — same as main hero card */}
+        {(hero.speed!=null||hero.atk||hero.critDmg||hero.ee)&&(
+          <>
+            <button onClick={e=>{e.stopPropagation();setStatsOpen(v=>!v);}} style={{
+              display:"flex",alignItems:"center",justifyContent:"center",gap:3,
+              background:"none",border:`1px solid ${C.border}`,borderRadius:RS,
+              padding:"2px 7px",cursor:"pointer",fontSize:8,color:C.textDim,width:"100%",
+            }}>{statsOpen?"▲":"▼"} Stats</button>
+            {statsOpen&&(
+              <div style={{width:"100%",background:C.surface,borderRadius:RS,
+                padding:"5px 6px",border:`1px solid ${C.border}`,
+                display:"flex",flexDirection:"column",gap:3}}>
+                {[
+                  {label:"SPD", value:hero.speed!=null?String(hero.speed):"—"},
+                  {label:"ATK", value:hero.atk??"—"},
+                  {label:"CDMG",value:hero.critDmg??"—"},
+                  {label:"EE",  value:hero.ee??"—"},
+                ].map(({label,value})=>(
+                  <div key={label} style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                    <span style={{fontSize:8,color:C.textDim,fontWeight:600}}>{label}</span>
+                    <span style={{fontSize:8,color:value==="—"||value==="N/A"?C.textDim:C.textMid,fontWeight:600}}>{value}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── FORMATION GRID ──────────────────────────────────────────────
+// BACK_ROW_H: fixed height for the back row cell.
+// Front row sits immediately below with a small gap.
+// Negative margin pulls front row UP, reducing dead space.
+const BACK_ROW_H  = 360;
+const COMPACT_H   = 240;
+const ROW_OVERLAP = 170; // px overlap — works with fluid portraits since back row height is auto
+
+function FormationGrid({heroes,formation,compact=false}){
+  const grid=buildGrid(heroes,formation||"1b4f");
+  const Card=compact?CompactHeroCard:HeroCard;
+  const backH=compact?COMPACT_H:BACK_ROW_H;
+  return(
+    <div style={{flex:1,minWidth:0,display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:4,overflow:"hidden"}}>
+      {grid.map((col,i)=>(
+        <div key={i} style={{display:"flex",flexDirection:"column",minWidth:0}}>
+          {/* Back row cell — fixed height creates the stagger gap */}
+          <div style={{
+            height:backH,
+            display:"flex",alignItems:"flex-start",
+            overflow:"visible", // allow card to extend beyond for visual effect
+          }}>
+            {col.back ? <Card hero={col.back}/> : <div style={{width:"100%",height:"100%"}}/>}
+          </div>
+          {/* Front row — pulls up by ROW_OVERLAP for stagger effect */}
+          <div style={{
+            marginTop:`-${ROW_OVERLAP}px`,
+            display:"flex",alignItems:"flex-start",
+            position:"relative",zIndex:1,
+          }}>
+            {col.front ? <Card hero={col.front}/> : null}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── PET SECTION ────────────────────────────────────────────────
+function PetSection({pets}){
+  return(
+    <div style={{flexShrink:0,width:138,display:"flex",flexDirection:"column",
+      gap:6,marginRight:12,paddingTop:4}}>
+      <div style={{fontSize:9,fontWeight:700,color:C.textDim,
+        letterSpacing:2,textTransform:"uppercase",marginBottom:2}}>
+        {pets.length>1?"PETS":"PET"}
+      </div>
+      {pets.map((pet,i)=><PetRow key={i} pet={pet} isPrimary={i===0}/>)}
+    </div>
+  );
+}
+function PetRow({pet,isPrimary}){
+  const{open,setOpen,ref}=usePopup();
+  return(
+    <div style={{position:"relative"}}>
+      <button onClick={()=>setOpen(v=>!v)} style={{
+        width:"100%",display:"flex",alignItems:"center",gap:7,
+        background:open?C.gold+"18":isPrimary?C.goldDim+"22":C.card,
+        border:`1px solid ${open?C.gold:isPrimary?C.goldDim:C.border}`,
+        borderRadius:RS,padding:"6px 10px 6px 8px",cursor:"pointer",transition:"all 0.15s",
+      }}>
+        <div style={{width:"clamp(36px,4vw,52px)",height:"clamp(36px,4vw,52px)",flexShrink:0,flexGrow:0,borderRadius:RS,overflow:"hidden",background:C.card}}>
+          <img src={img(`images/pets/${pet.rarity}/${pet.name}.png`)} alt={pet.name}
+            style={{width:"100%",height:"100%",objectFit:"cover"}}
+            onError={e=>{e.target.style.display="none";e.target.parentNode.innerHTML=`<span style="font-size:26px;line-height:52px;display:block;text-align:center">${pet.icon||"🐾"}</span>`;}}
+          />
+        </div>
+        <div style={{textAlign:"left",minWidth:0,flex:1,overflow:"hidden",paddingRight:4}}>
+          <div style={{fontSize:11,fontWeight:700,
+            color:open?C.gold:isPrimary?C.gold:C.textMid,
+            whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{pet.name}</div>
+          <div style={{fontSize:8,color:C.textDim,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{isPrimary?"Recommended":"Alternative"}</div>
+        </div>
+      </button>
+      {open&&(
+        <DownPopup refProp={ref} color={C.gold}>
+          <div style={{fontSize:12,fontWeight:800,color:C.gold,marginBottom:4}}>
+            {pet.name}
+          </div>
+          <div style={{fontSize:9,color:C.textDim,fontWeight:700,
+            letterSpacing:1,textTransform:"uppercase",marginBottom:5}}>Passive</div>
+          <div style={{fontSize:11,color:C.textMid,lineHeight:1.65}}>{pet.passive}</div>
+        </DownPopup>
+      )}
+    </div>
+  );
+}
+
+// ─── STAT TABLE ─────────────────────────────────────────────────
+function StatTable({heroes,heroOrder,statKey,title}){
+  const ordered=heroOrder.map(s=>heroes.find(h=>h.slot===s)).filter(Boolean);
+  const hasAny=ordered.some(h=>h[statKey]&&Object.values(h[statKey]).some(v=>v!=="-"));
+  if(!hasAny)return null;
+
+  // Distinct accent colour per table type
+  const accent    = statKey==="critRate" ? "#f05a28" : "#f5d76e"; // reddish-orange for crit, pale yellow for weakness
+  const accentDim = statKey==="critRate" ? "#f05a2822" : "#f5d76e22";
+  const accentBorder = statKey==="critRate" ? "#f05a2855" : "#f5d76e55";
+
+  return(
+    <div style={{
+      border:`1px solid ${accentBorder}`,
+      borderRadius:R, overflow:"hidden",
+    }}>
+      {/* Table header bar */}
+      <div style={{
+        padding:"7px 12px",
+        background:`linear-gradient(90deg,${accentDim},transparent)`,
+        borderBottom:`1px solid ${accentBorder}`,
+        display:"flex",alignItems:"center",gap:8,
+      }}>
+        <div style={{width:3,height:14,background:accent,borderRadius:2,flexShrink:0}}/>
+        <div style={{fontSize:10,fontWeight:700,color:accent,
+          letterSpacing:2,textTransform:"uppercase"}}>{title}</div>
+      </div>
+      {/* CSS grid — SOURCE col + 5 equal hero cols */}
+      <div style={{display:"grid",gridTemplateColumns:`140px repeat(${ordered.length},1fr)`}}>
+        {/* Header row */}
+        <div style={{padding:"6px 10px",fontSize:9,color:C.textDim,fontWeight:600,
+          background:C.card,borderBottom:`1px solid ${C.border}`}}></div>
+        {ordered.map(h=>(
+          <div key={h.slot} style={{padding:"6px 6px",textAlign:"center",
+            background:C.card,borderBottom:`1px solid ${C.border}`}}>
+            <div style={{fontSize:8,color:slotColor(h.slot),fontWeight:700,marginBottom:2}}>{h.slot}</div>
+            <div style={{fontSize:10,color:C.text,fontWeight:800,
+              borderBottom:`2px solid ${typeColor(h.type)}`,paddingBottom:3,
+              display:"inline-block",minWidth:40}}>{h.hero}</div>
+          </div>
+        ))}
+        {/* Data rows */}
+        {STAT_ROWS.filter(({key})=>!(statKey==="weakHit"&&key==="base")).map(({key,label},i)=>(
+          <>
+            <div key={`label-${key}`} style={{padding:"5px 10px",color:C.textDim,fontWeight:600,fontSize:10,
+              background:i%2===0?C.surface+"44":"transparent",
+              borderBottom:`1px solid ${C.border}22`}}>{label}</div>
+            {ordered.map(h=>{
+              const v=h[statKey]?.[key];
+              const empty=v===undefined||v==="-";
+              return(
+                <div key={`${h.slot}-${key}`} style={{padding:"5px 6px",textAlign:"center",
+                  fontSize:11,
+                  color:empty?C.textDim+"44":C.text,
+                  background:!empty&&+v>0?accentDim:i%2===0?C.surface+"44":"transparent",
+                  borderBottom:`1px solid ${C.border}22`}}>
+                  {empty?"—":v}
+                </div>
+              );
+            })}
+          </>
+        ))}
+        {/* Total row */}
+        <div style={{padding:"6px 10px",color:C.gold,fontWeight:800,fontSize:11,
+          background:C.gold+"12",borderTop:`1px solid ${C.gold}44`}}>TOTAL</div>
+        {ordered.map(h=>(
+          <div key={`total-${h.slot}`} style={{padding:"6px 6px",textAlign:"center",
+            color:C.gold,fontWeight:800,fontSize:12,
+            background:C.gold+"12",borderTop:`1px solid ${C.gold}44`}}>
+            {h[statKey]?.total??"—"}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── SKILL TIMELINE ─────────────────────────────────────────────
+function SkillTimeline({queue,heroes}){
+  const[activeKey,setActiveKey]=useState(null);
+  const[tooltipPos,setTooltipPos]=useState({x:0,y:0});
+  const tooltipRef=useRef();
+  useEffect(()=>{
+    if(activeKey===null)return;
+    const h=e=>{if(tooltipRef.current&&!tooltipRef.current.contains(e.target))setActiveKey(null);};
+    document.addEventListener("mousedown",h);
+    return()=>document.removeEventListener("mousedown",h);
+  },[activeKey]);
+  if(!queue||queue.length===0)return(
+    <div style={{padding:16,textAlign:"center",color:C.textDim,fontSize:12,
+      background:C.card,borderRadius:RS}}>No skill queue data.</div>
+  );
+  const maxTurn=Math.max(...queue.map(q=>q.turn), 75); // minimum 20 slots (0–76)
+  const turns=[];
+  for(let t=0;t<=maxTurn;t+=4)turns.push(t);
+  const skColor=s=>s==="SE"?"#7c3aed":"#b45309";
+  const activeEntry=queue.find(q=>q.turn===activeKey);
+  const activeHero=activeEntry?heroes.find(h=>h.slot===activeEntry.slot):null;
+  const sc=activeHero?typeColor(activeHero.type):C.border;
+  return(
+    <div style={{overflowX:"auto",paddingBottom:6,position:"relative"}}>
+      {/* Tooltip — fixed position just above the clicked button */}
+      {activeKey!==null&&activeEntry&&(
+        <div ref={tooltipRef} style={{
+          position:"fixed",
+          left: Math.max(8, Math.min(tooltipPos.x - 100, window.innerWidth - 216)),
+          top: tooltipPos.y - 10,
+          transform:"translateY(-100%)",
+          width:200,
+          background:C.surface,border:`1px solid ${sc}55`,
+          borderRadius:R,padding:12,zIndex:9999,
+          boxShadow:"0 8px 32px #000000cc",
+          pointerEvents:"auto",
+        }}>
+          {/* caret pointing down */}
+          <div style={{position:"absolute",bottom:-5,left:"50%",
+            transform:"translateX(-50%) rotate(45deg)",width:8,height:8,
+            background:C.surface,border:`1px solid ${sc}44`,
+            borderTop:"none",borderLeft:"none"}}/>
+          <div style={{fontSize:11,fontWeight:800,color:sc,marginBottom:2}}>
+            Turn {activeKey} — {activeHero?.hero}
+          </div>
+          <div style={{fontSize:10,fontWeight:700,color:skColor(activeEntry.skill),marginBottom:5}}>
+            {activeEntry.skill==="SE"?"Special Skill":"Active Skill"}
+          </div>
+          <div style={{fontSize:11,color:C.textMid,lineHeight:1.6}}>
+            {activeEntry.note||"Execute skill as indicated."}
+          </div>
+        </div>
+      )}
+      <div style={{display:"flex",minWidth:turns.length*56}}>
+        {turns.map(turn=>{
+          const entry=queue.find(q=>q.turn===turn);
+          const hero=entry?heroes.find(h=>h.slot===entry.slot):null;
+          const sc=hero?typeColor(hero.type):C.border;
+          const isActive=activeKey===turn;
+          return(
+            <div key={turn} style={{width:56,flexShrink:0,
+              display:"flex",flexDirection:"column",alignItems:"center"}}>
+              <button onClick={e=>{
+                if(!entry){setActiveKey(null);return;}
+                const rect=e.currentTarget.getBoundingClientRect();
+                setTooltipPos({x:rect.left+rect.width/2, y:rect.top});
+                setActiveKey(isActive?null:turn);
+              }} style={{
+                width:44,height:44,borderRadius:0,
+                border:`2px solid ${entry?sc:C.border}`,
+                background:entry?(isActive?sc+"44":sc+"18"):C.card,
+                cursor:entry?"pointer":"default",
+                display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:2,
+                opacity:entry?1:0.18,transition:"all 0.15s",
+                transform:isActive?"scale(1.1)":"scale(1)",
+              }}>
+                {entry&&<>
+                  {entry.skillIcon
+                    ? <img src={img(`images/skills/${entry.skillIcon}`)} alt={entry.skill}
+                        style={{width:"80%",height:"80%",objectFit:"contain"}}
+                        onError={e=>{e.target.style.display="none";}}/>
+                    : <>
+                        <span style={{fontSize:8,fontWeight:800,color:sc}}>{hero?.hero?.slice(0,4).toUpperCase()}</span>
+                        <span style={{fontSize:8,fontWeight:800,padding:"1px 4px",borderRadius:0,
+                          background:skColor(entry.skill),color:"#fff"}}>{entry.skill}</span>
+                      </>
+                  }
+                </>}
+              </button>
+              <div style={{width:1,height:6,background:entry?sc+"55":C.border+"22"}}/>
+              <div style={{fontSize:9,fontWeight:entry?700:400,
+                color:entry?C.gold:C.textDim+"44"}}>{turn}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── BOSS SKILL BTN — opens DOWNWARD ────────────────────────────
+function BossSkillBtn({skill}){
+  const[open,setOpen]=useState(false);
+  const[pos,setPos]=useState({x:0,y:0});
+  const btnRef=useRef();
+  const tooltipRef=useRef();
+  useEffect(()=>{
+    if(!open)return;
+    const h=e=>{
+      if(tooltipRef.current&&!tooltipRef.current.contains(e.target)
+        &&btnRef.current&&!btnRef.current.contains(e.target))setOpen(false);
+    };
+    document.addEventListener("mousedown",h);
+    return()=>document.removeEventListener("mousedown",h);
+  },[open]);
+  const tc=skill.type==="Passive"?C.textMid
+    :skill.type==="Ultimate"?C.gold
+    :skill.type==="Phase Transition"?C.red
+    :C.blue;
+  const handleClick=()=>{
+    if(!open){
+      const rect=btnRef.current.getBoundingClientRect();
+      setPos({x:rect.left+rect.width/2,y:rect.bottom+8});
+    }
+    setOpen(v=>!v);
+  };
+  return(
+    <div style={{position:"relative",display:"inline-block"}}>
+      <button ref={btnRef} onClick={handleClick} style={{
+        width:50,height:50,borderRadius:0,
+        border:`2px solid ${open?tc:C.border}`,
+        background:open?tc+"33":C.surface,
+        cursor:"pointer",fontSize:20,
+        display:"flex",alignItems:"center",justifyContent:"center",
+        transition:"all 0.15s",transform:open?"scale(1.12)":"scale(1)",
+      }}
+      onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.1)";e.currentTarget.style.borderColor=tc+"88";}}
+      onMouseLeave={e=>{e.currentTarget.style.transform=open?"scale(1.12)":"scale(1)";e.currentTarget.style.borderColor=open?tc:C.border;}}
+      >
+        {skill.icon && (skill.icon.endsWith(".png")||skill.icon.endsWith(".jpg"))
+          ? <img src={img(`images/skills/${skill.icon}`)} alt={skill.name}
+              style={{width:"70%",height:"70%",objectFit:"contain"}}
+              onError={e=>e.target.style.display="none"}/>
+          : skill.icon
+        }
+      </button>
+      {open&&(
+        <div ref={tooltipRef} style={{
+          position:"fixed",
+          left:Math.max(8,Math.min(pos.x-124,window.innerWidth-256)),
+          top:pos.y,
+          width:248,
+          background:C.surface,border:`1px solid ${tc}55`,
+          borderRadius:R,padding:14,zIndex:9999,
+          boxShadow:"0 12px 40px #000000dd",
+          pointerEvents:"auto",
+        }}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
+            <span style={{fontSize:13,fontWeight:800,color:C.text}}>{skill.name}</span>
+            <button onClick={()=>setOpen(false)} style={{background:"none",border:"none",
+              color:C.textDim,cursor:"pointer",fontSize:15,lineHeight:1}}>×</button>
+          </div>
+          <div style={{display:"flex",gap:5,marginBottom:9,flexWrap:"wrap"}}>
+            {[{l:skill.type,c:tc},{l:skill.target,c:C.textDim},{l:skill.cooldown,c:C.textDim}].map(({l,c})=>(
+              <span key={l} style={{fontSize:9,fontWeight:700,padding:"2px 7px",borderRadius:RS,
+                background:C.card,color:c,border:`1px solid ${C.border}`}}>{l}</span>
+            ))}
+          </div>
+          <p style={{fontSize:11,color:C.textMid,lineHeight:1.65,margin:0}}>{skill.description}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+// ─── TEAM BLOCK ────────────────────────────────────────────────
+function TeamBlock({team,isMain,compactGrid=false}){
+  const[statsExpanded,setStatsExpanded]=useState(false);
+  const[activeQueue,setActiveQueue]=useState(0);
+  const queues=team.skillQueues||[];
+  const grid=buildGrid(team.heroes,team.formation||"1b4f");
+  const heroOrder=gridHeroOrder(grid);
+  return(
+    <div style={{background:C.surface,border:`1px solid ${C.border}`,borderRadius:R,marginBottom:18}}>
+      <div style={{padding:"10px 16px",borderBottom:`1px solid ${C.border}`,
+        display:"flex",alignItems:"center",gap:10,
+        background:isMain?`linear-gradient(90deg,${C.gold}18 0%,${C.gold}06 60%,transparent 100%)`:"transparent",
+        borderRadius:"0 14px 0 0",borderBottom:`1px solid ${isMain?C.gold+"33":C.border}`}}>
+        {isMain&&<span style={{background:C.gold+"22",border:`1px solid ${C.gold}`,
+          borderRadius:RS,padding:"2px 8px",fontSize:9,color:C.gold,fontWeight:700}}>★ MAIN TEAM</span>}
+        <span style={{fontSize:14,fontWeight:700,color:C.text}}>{team.label}</span>
+      </div>
+      {team.note&&(
+        <div style={{padding:"8px 16px",borderBottom:`1px solid ${C.border}`,
+          fontSize:11,color:C.textDim,background:C.card}}>
+          {team.note}
+        </div>
+      )}
+      <div style={{padding:"12px 10px",display:"flex",flexDirection:"column",gap:16}}>
+        <div style={{display:"flex",alignItems:"flex-start"}}>
+          {team.pets&&<PetSection pets={team.pets}/>}
+          <FormationGrid heroes={team.heroes} formation={team.formation||"1b4f"} compact={compactGrid}/>
+        </div>
+        {team.heroes[0]?.critRate&&(
+          <div style={{border:`1px solid ${C.border}`,borderRadius:RS,overflow:"hidden"}}>
+            <button onClick={()=>setStatsExpanded(v=>!v)} style={{
+              width:"100%",padding:"9px 14px",
+              display:"flex",alignItems:"center",justifyContent:"space-between",
+              background:statsExpanded?C.blue+"12":C.card,
+              border:"none",cursor:"pointer",
+              borderBottom:statsExpanded?`1px solid ${C.border}`:"none",
+            }}>
+              <span style={{fontSize:10,fontWeight:700,color:C.textMid,
+                letterSpacing:2,textTransform:"uppercase"}}>Crit Rate & Weakness Hit Breakdown</span>
+              <span style={{fontSize:11,color:C.textDim}}>{statsExpanded?"▲":"▼"}</span>
+            </button>
+            {statsExpanded&&(
+              <div style={{padding:"14px 14px",display:"flex",flexDirection:"column",gap:16,background:C.card}}>
+                <StatTable heroes={team.heroes} heroOrder={heroOrder} statKey="critRate" title="Crit Rate Breakdown"/>
+                <StatTable heroes={team.heroes} heroOrder={heroOrder} statKey="weakHit"  title="Weakness Hit Breakdown"/>
+              </div>
+            )}
+          </div>
+        )}
+        {queues.length>0&&(
+          <div style={{border:`1px solid ${C.blue}44`,borderRadius:R,overflow:"hidden"}}>
+            {/* Header bar */}
+            <div style={{
+              padding:"8px 14px",
+              background:`linear-gradient(90deg,${C.blue}22,transparent)`,
+              borderBottom:`1px solid ${C.blue}33`,
+              display:"flex",alignItems:"center",justifyContent:"space-between",
+            }}>
+              <div style={{display:"flex",alignItems:"center",gap:8}}>
+                <div style={{width:3,height:14,background:C.blue,borderRadius:2,flexShrink:0}}/>
+                <div style={{fontSize:10,fontWeight:700,color:C.blue,letterSpacing:2,textTransform:"uppercase"}}>Skill Queue</div>
+              </div>
+              {queues.length>1&&(
+                <div style={{display:"flex",gap:5}}>
+                  {queues.map((q,i)=>(
+                    <button key={i} onClick={()=>setActiveQueue(i)} style={{
+                      padding:"3px 10px",borderRadius:RS,border:"none",cursor:"pointer",
+                      fontSize:10,fontWeight:700,
+                      background:activeQueue===i?C.blue:C.card,
+                      color:activeQueue===i?"#fff":C.textDim,
+                    }}>{q.label}</button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div style={{padding:"10px 10px"}}>
+              <SkillTimeline queue={queues[activeQueue]?.queue||[]} heroes={team.heroes}/>
+            </div>
+          </div>
+        )}
+        {team.extraNotes&&(
+          <div style={{background:C.gold+"0a",border:`1px solid ${C.gold}22`,borderRadius:RS,padding:"10px 14px"}}>
+            <div style={{fontSize:10,fontWeight:700,color:C.gold,letterSpacing:1,textTransform:"uppercase",marginBottom:5}}>📋 Team Notes</div>
+            <div style={{fontSize:11,color:C.textMid,lineHeight:1.7}}>{team.extraNotes}</div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function AltTeamBlock({team}){
+  return <TeamBlock team={team} isMain={false} compactGrid/>;
+}
+
+// ─── MAIN APP ──────────────────────────────────────────────────
+function App(){
+  const[activePhase,setActivePhase]=useState(0);
+  const[notesOpen,setNotesOpen]=useState(false);
+  const phase=PHASES[activePhase];
+  const FF="'Lato','Inter','Segoe UI',system-ui,sans-serif";
+  return(
+    <div style={{background:C.bg,minHeight:"100vh",fontFamily:FF,color:C.text,
+      backgroundImage:"radial-gradient(ellipse 80% 60% at 50% 0%, #0d2040 0%, transparent 70%)",
+      overflowX:"auto",
+      minWidth:1024,
+    }}>
+
+      {/* ── NAV ── */}
+      <div style={{borderBottom:`2px solid ${C.gold}33`,background:C.surface,
+        padding:"0 28px",display:"flex",alignItems:"center",height:48,
+        position:"sticky",top:0,zIndex:600}}>
+        <span style={{fontSize:15,fontWeight:900,color:C.gold,letterSpacing:1,marginRight:28}}>7KRe:BIRTH</span>
+        {["Home","Heroes","Tier Lists","Team Builds","Guides","Changelog"].map(n=>(
+          <span key={n} style={{fontSize:12,padding:"0 12px",height:"100%",
+            display:"flex",alignItems:"center",cursor:"pointer",
+            color:n==="Team Builds"?C.blue:C.textDim,fontWeight:n==="Team Builds"?700:400,
+            borderBottom:n==="Team Builds"?`2px solid ${C.blue}`:"2px solid transparent"}}>{n}</span>
+        ))}
+      </div>
+
+      <div style={{maxWidth:1400,margin:"0 auto",padding:"22px 28px"}}>
+
+        {/* ── BREADCRUMB ── */}
+        <div style={{fontSize:11,color:C.textDim,marginBottom:16}}>
+          Team Builds &rsaquo;{" "}
+          <span style={{color:C.textMid}}>Advent Expedition</span> &rsaquo;{" "}
+          <span style={{color:C.gold}}>God of Destruction</span>
+        </div>
+
+        {/* ── PAGE TITLE BAR ── */}
+        <div style={{
+          background:`linear-gradient(135deg,${C.surface},${C.card})`,
+          border:`1px solid ${C.border}`,borderLeft:`4px solid ${C.gold}`,
+          borderRadius:RL,padding:"16px 22px",marginBottom:20,
+          display:"flex",justifyContent:"space-between",alignItems:"center",
+          flexWrap:"wrap",gap:12,
+        }}>
+          <div>
+            <div style={{fontSize:10,color:C.gold,fontWeight:700,
+              letterSpacing:3,textTransform:"uppercase",marginBottom:3}}>Advent Expedition</div>
+            <h1 style={{fontSize:22,fontWeight:900,color:C.text,margin:0}}>God of Destruction</h1>
+          </div>
+          <div style={{display:"flex",gap:8}}>
+            <a href={DATA.videoUrl} target="_blank" rel="noreferrer" style={{
+              display:"flex",alignItems:"center",gap:5,background:"#ff000015",
+              border:"1px solid #ff000055",borderRadius:7,padding:"7px 13px",
+              textDecoration:"none",color:"#f87171",fontSize:12,fontWeight:700}}>&#9654; Video Guide</a>
+            <button onClick={()=>setNotesOpen(v=>!v)} style={{
+              display:"flex",alignItems:"center",gap:5,background:C.blue+"15",
+              border:`1px solid ${C.blue}44`,borderRadius:7,padding:"7px 13px",
+              color:C.blue,fontSize:12,fontWeight:700,cursor:"pointer"}}>
+              {notesOpen?"▲":"▼"} Notes
+            </button>
+          </div>
+        </div>
+
+        {/* ── NOTES ── */}
+        {notesOpen&&(
+          <div style={{background:C.card,border:`1px solid ${C.blue}33`,
+            borderRadius:R,padding:"13px 17px",marginBottom:20}}>
+            <ul style={{margin:0,padding:"0 0 0 16px",display:"flex",flexDirection:"column",gap:6}}>
+              {DATA.notes.map((n,i)=>(
+                <li key={i} style={{fontSize:12,color:C.textMid,lineHeight:1.65}}>{n}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* ── TWO-COLUMN LAYOUT ── */}
+        <div style={{display:"flex",gap:20,alignItems:"flex-start"}}>
+
+          {/* ══ LEFT — Boss panel (sticky) ══ */}
+          <div style={{
+            width:"clamp(200px, 22%, 280px)",flexShrink:0,
+            position:"sticky",top:68,
+            background:C.surface,
+            border:`1px solid ${C.gold}44`,
+            borderRadius:RL,overflow:"hidden",
+            boxShadow:`0 0 30px ${C.gold}0d, inset 0 0 40px #00000033`,
+          }}>
+            {/* Boss portrait area — 242:578 aspect ratio */}
+            <div style={{
+              width:"100%",aspectRatio:"242/578",
+              background:"linear-gradient(180deg,#120820 0%,#0a1428 40%,#06101c 100%)",
+              position:"relative",
+              display:"flex",alignItems:"center",justifyContent:"center",
+              overflow:"hidden",
+            }}>
+              {/* Atmospheric glow */}
+              <div style={{
+                position:"absolute",top:"15%",left:"50%",
+                transform:"translateX(-50%)",
+                width:180,height:180,borderRadius:"50%",
+                background:"radial-gradient(circle,#e8962a66 0%,transparent 70%)",
+                filter:"blur(28px)",pointerEvents:"none",
+              }}/>
+              {/* Boss image placeholder — swap for <img src="gods-of-destruction.png" style={{width:"100%",height:"100%",objectFit:"cover"}}/> */}
+              <img
+                src={img(`images/bosses/${DATA.boss.imageFolder||"Advent_GoD"}/${DATA.boss.imageFile||"god-of-destruction"}.png`)}
+                alt={BOSS.name}
+                style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",zIndex:1}}
+                onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="block";}}
+              />
+              <div style={{display:"none",fontSize:90,zIndex:1,filter:"drop-shadow(0 0 30px #ff000088)"}}>👹</div>
+              {/* Bottom fade blend */}
+              <div style={{
+                position:"absolute",bottom:0,left:0,right:0,height:100,
+                background:`linear-gradient(transparent,${C.surface})`,
+                pointerEvents:"none",
+              }}/>
+            </div>
+
+            {/* Boss info */}
+            <div style={{padding:"0 18px 20px",marginTop:-24,position:"relative",zIndex:2}}>
+              <div style={{fontSize:9,color:C.gold,fontWeight:700,
+                letterSpacing:3,textTransform:"uppercase",marginBottom:4}}>{BOSS.mode}</div>
+              <h2 style={{fontSize:19,fontWeight:900,color:C.text,margin:"0 0 2px",lineHeight:1.2}}>
+                {BOSS.name}
+              </h2>
+              <div style={{fontSize:11,color:C.textDim,marginBottom:10}}>{BOSS.nameKR}</div>
+
+              <div style={{display:"flex",gap:6,marginBottom:14,flexWrap:"wrap"}}>
+                {[{l:BOSS.element,c:"#9333ea"},{l:BOSS.difficulty,c:C.red}].map(({l,c})=>(
+                  <span key={l} style={{fontSize:9,fontWeight:700,padding:"3px 10px",
+                    borderRadius:RS,background:c+"22",color:c,border:`1px solid ${c}55`}}>{l}</span>
+                ))}
+              </div>
+
+              <p style={{fontSize:11,color:C.textMid,lineHeight:1.75,margin:"0 0 16px"}}>
+                {BOSS.description}
+              </p>
+
+              <div style={{height:1,background:C.border,marginBottom:14}}/>
+
+              <div style={{fontSize:9,color:C.textDim,fontWeight:700,
+                letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Boss Skills</div>
+              <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:6}}>
+                {BOSS.skills.map(s=><BossSkillBtn key={s.id} skill={s}/>)}
+              </div>
+              <div style={{fontSize:9,color:C.textDim}}>Click a skill to view details</div>
+            </div>
+          </div>
+
+          {/* ══ RIGHT — Phase tabs + teams ══ */}
+          <div style={{flex:1,minWidth:0}}>
+
+            {/* Phase tabs */}
+            <div style={{display:"flex",gap:6,marginBottom:18}}>
+              {PHASES.map((ph,i)=>(
+                <button key={ph.id} onClick={()=>setActivePhase(i)} style={{
+                  padding:"9px 20px",borderRadius:RS,cursor:"pointer",
+                  border:`1px solid ${activePhase===i?C.gold+'88':C.border}`,
+                  background:activePhase===i?C.gold+"18":C.surface,
+                  color:activePhase===i?C.gold:C.textDim,
+                  fontSize:13,fontWeight:700,
+                  display:"flex",flexDirection:"column",alignItems:"flex-start",gap:1,
+                }}>
+                  {ph.label}
+                  {ph.subLabel&&(
+                    <span style={{fontSize:9,fontWeight:400,
+                      color:activePhase===i?C.gold+"88":C.textDim}}>{ph.subLabel}</span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            <div style={{fontSize:10,fontWeight:700,color:C.textDim,
+              letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>
+              Main Teams — {phase.label}
+            </div>
+
+            {phase.teams.map((team,i)=>(
+              <TeamBlock key={`main-${activePhase}-${i}`} team={team} isMain={team.primary}/>
+            ))}
+
+            {phase.altTeams?.length>0&&(
+              <div style={{borderTop:`1px solid ${C.border}`,paddingTop:20,marginTop:4}}>
+                <div style={{fontSize:10,fontWeight:700,color:C.textDim,
+                  letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>
+                  Alternate Teams — {phase.label}
+                </div>
+                {phase.altTeams.map((team,i)=>(
+                  <AltTeamBlock key={`alt-${activePhase}-${i}`} team={team}/>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── FOOTER ── */}
+        <div style={{marginTop:32,borderTop:`1px solid ${C.border}33`,paddingTop:16,
+          display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:8}}>
+          <span style={{fontSize:11,color:C.textDim}}>7KRe:BIRTH Reference Site &middot; by 7Kdreamerplays &amp; castiel</span>
+          <span style={{fontSize:11,color:C.textDim}}>Not affiliated with or endorsed by Netmarble.</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Render the app
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(App));
+  </script>
+  <script>
+    // Wait for Babel to compile then render
+    document.addEventListener('DOMContentLoaded', function() {
+      // Babel handles the JSX above, React is global
+    });
+  </script>
+</body>
+</html>
